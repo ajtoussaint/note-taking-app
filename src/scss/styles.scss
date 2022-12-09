@@ -1,5 +1,59 @@
-$my_color: rgb(80,124,124);
+$mid_teal: rgb(80,124,124);
+$dark_gray: rgb(100,100,100);
+$back_gray: rgb(56,56,56);
+$shadow_teal: rgb(30,45,45);
+$dark_teal:rgb(55,85,85);
+$off_white:rgb(235,235,235);
 
-#test {
-  color: $my_color;
+html {
+  background-color: $back_gray;
+  color: white;
+  font-family: monospace;
+}
+
+#indexHeader {
+  background: $mid_teal;
+  text-align: center;
+  color:$shadow_teal;
+  width:100vw;
+  height:5em;
+  top:0;
+  left:0;
+  position:fixed;
+  border-bottom: solid black;
+  box-shadow: 0px 5px $shadow_teal;
+
+}
+
+#indexContent{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top:20em;
+}
+
+#loginBox {
+    background: $mid_teal;
+    border: solid black;
+    box-shadow: 10px 10px $shadow_teal;
+    color:black;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    width:30em;
+    form{
+      display:flex;
+      flex-direction: column;
+      gap:0.1em;
+
+      input{
+        background-color:$off_white;
+      }
+
+      button{
+        width:50%;
+        align-self: center;
+        margin-bottom: 0.5em;
+      }
+    }
 }
