@@ -1,0 +1,45 @@
+doctype html
+head
+  link(rel='stylesheet' type='text/css' href='../public/styles.css')
+#indexHeader.header
+  h1
+    | Note Taking App
+#indexContent
+  #loginBox.indexBox
+    h1
+      | Login
+    form#loginForm(action='/login' method='post')
+      label(for='username')
+        | Username:
+        br
+        input#username(type='text' name='username')
+      br
+      label(for='password')
+        | Password:
+        br
+        input#password(type='text' name='password')
+      br
+      button(type='submit') Sign In
+    br
+  br
+  br
+  #registerBox.indexBox
+    h1
+      | Register
+    form#registerForm(action='/register' method='post')
+      label(for='username')
+        | Username:
+        br
+        input#regUsername(type='text' name='username')
+      br
+      label(for='password')
+        | Password:
+        br
+        input#regPassword(type='text' name='password')
+      br
+      label(for='password')
+        | Retype Password:
+        br
+        input#regConfirmPassword(type='text' name='confirmPassword')
+      br
+      button(type='submit') Register
