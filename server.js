@@ -15,6 +15,10 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 //imported from Modles folder for use with mongoose
 const User = require('./models/User');
+//import authentication code
+const auth = require('./auth.js');
+//import routing code
+const route = require('./routes.js');
 
 //before anything esle connect mongoose to the db
 mongoose
@@ -49,38 +53,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//passport serialization and deserialization
-passport.serializeUser((user, done) => {
-  done(null,user._id);
-});
+//user routes.js to apply all the routes
+route(app,User);
+//use the auth.js script to set up passport
+auth(app,User);
 
-passport.deserializeUser((id, done) => {
-  //Once connected to db we can deserialize into the user based on id
-  //myDataBase.findOne({_id: new ObjectID(id) }, (err,doc) =>{
-  //done(null,doc);
-  //delete this line after uncommenting above
-  done(null,null);
-  //}); //end bracket of the db call
-});
 
-app.route('/')
-  .get(function (req,res) {
-    //res.sendFile(process.cwd() + '/views/index.html');
-    res.render("pug/index");
-  });
 
-app.route("/login")
-  .post(function (req,res) {
-    console.log("LOGIN ATTEMPT BY: ", req.body);
-    res.render("pug/profile",{user:req.body.username});
-    //res.redirect("/profile");
-  });
-
-app.route("/profile")
-  .get(function (req,res) {
-    console.log("IN PROF", req.body);
-    res.render("pug/profile");
-  });
 
 app.listen(3000, () =>{
   console.log("App is listening on port 3000");
