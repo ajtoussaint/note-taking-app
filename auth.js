@@ -38,7 +38,7 @@ module.exports = function(app, User){
           return done(null,false);
         }
         console.log("I'm in B)");
-        return done(null,data);
+        return done(null,data[0]);
       });
     }
   ))

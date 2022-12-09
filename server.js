@@ -58,6 +58,11 @@ route(app,User);
 //use the auth.js script to set up passport
 auth(app,User);
 
+//middleware that handles 404 error
+app.use(function(req,res,next) {
+  res.status(404)
+    .render('pug/404');
+});
 
 
 

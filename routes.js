@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 module.exports = function (app, User){
   app.route('/')
-    .get(function (req,res) {
+    .get(ensureNotAuthenticated, function (req,res) {
       //res.sendFile(process.cwd() + '/views/index.html');
       res.render("pug/index");
     });
@@ -13,14 +13,14 @@ module.exports = function (app, User){
   app.route("/login")
     .post(passport.authenticate('local', {failureRedirect:'/'}), function (req,res) {
       console.log("LOGIN ATTEMPT BY: ", req.body);
-      res.render("pug/profile",{user:req.body.username});
-      //res.redirect("/profile");
+      //res.render("pug/profile",{user:req.body.username});
+      res.redirect("/profile");
     });
 
   app.route("/profile")
-    .get(function (req,res) {
-      console.log("IN PROF", req.body);
-      res.render("pug/profile");
+    .get(ensureAuthenticated, function (req,res) {
+      console.log("IN PROFILE OF: ", req.user.username);
+      res.render("pug/profile", {user:req.user.username,topicList:["Computer Science", "Philosophy"]});
     });
 
     app.route("/register")
@@ -62,6 +62,14 @@ module.exports = function (app, User){
         }
     );
 
+    app.route('/logout')
+      .get((req,res) =>{
+        req.logout(function(err) {
+          if(err){ return next(err); }
+          res.redirect('/');
+        });
+      });
+
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){
         return next();
@@ -69,6 +77,15 @@ module.exports = function (app, User){
       console.log('Authentication invalid, go home');
       res.redirect('/');
     };
+
+    //use this on the default route to bypass security and go to homepage
+    function ensureNotAuthenticated(req, res, next) {
+      if(req.isAuthenticated()){
+        res.redirect('/profile');
+      }else{
+        return next();
+      }
+    }
 
 
 }//end export

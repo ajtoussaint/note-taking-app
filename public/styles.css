@@ -17,7 +17,7 @@ html {
   box-shadow: 0px 5px rgb(30, 45, 45);
 }
 
-#indexContent {
+.content {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -46,4 +46,22 @@ html {
   width: 50%;
   align-self: center;
   margin-bottom: 0.5em;
+}
+
+#logoutButton {
+  color: black;
+  background-color: rgb(235, 235, 235);
+  border: solid;
+  right: 0;
+  margin-right: 1em;
+  text-decoration: none;
+  position: fixed;
+}
+
+#profileContent {
+  margin-top: 7em;
+}
+
+#noTopicsFound {
+  text-align: center;
 }

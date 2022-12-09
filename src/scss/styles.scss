@@ -25,7 +25,7 @@ html {
 
 }
 
-#indexContent{
+.content{
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -59,3 +59,20 @@ html {
 }
 
 //used on the profile page:
+
+#logoutButton{
+  color:black;
+  background-color: $off_white;
+  border: solid;
+  right:0;
+  margin-right:1em;
+  text-decoration: none;
+  position:fixed;
+}
+
+#profileContent{
+  margin-top:7em;
+}
+#noTopicsFound{
+  text-align: center;
+}

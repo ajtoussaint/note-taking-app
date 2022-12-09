@@ -1,6 +1,28 @@
 doctype html
 head
   link(rel='stylesheet' type='text/css' href='../public/styles.css')
-#profileHeader.header
-  h1
-    | Welcome #{user}!
+body
+  #profileHeader.header
+    h1
+      | Notes by #{user}
+      a(href='/logout' id="logoutButton")
+        | Logout
+  #profileContent.content
+    #topicContainer
+      if !topicList
+        h1#noTopicsFound
+          |No Topics Found!
+          br
+          |Add some topics to organize your notes
+      else
+        ul#topicList
+          each topic in topicList
+            li
+              a(href='/notes/'+ topic)
+                |#{topic}
+    #createTopic
+      form#newTopicForm(action='/topic' method=post)
+        label(for='topic')
+          |New Topic Name:
+          input#topicInput(type="text" name="topic")
+        button(type="submit") Create New Topic
