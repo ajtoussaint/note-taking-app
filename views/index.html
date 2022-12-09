@@ -4,18 +4,18 @@
     <link rel="stylesheet" type="text/css" href="../public/styles.css" />
   </head>
   <body>
-    <div id="indexHeader">
+    <div id="indexHeader" class="header">
       <h1>
         Note Taking App
       </h1>
     </div>
 
     <div id="indexContent">
-      <div id="loginBox">
+      <div id="loginBox" class="indexBox">
         <h1>
-          Sign In / Sign Up
+          Login
         </h1>
-        <form id="loginForm">
+        <form id="loginForm" action="/login" method="post">
           <label for="username">
             Username:
             <br>
@@ -30,7 +30,40 @@
           <br>
           <button type="submit">Sign In</button>
         </form>
+        <br>
       </div>
+
+      <br><br>
+
+      <div id="registerBox" class="indexBox">
+        <h1>
+          Register
+        </h1>
+        <form id="registerForm" action="/register" method="post">
+          <label for="username">
+            Username:
+            <br>
+            <input type="text" id="regUsername" name="username">
+          </label>
+          <br>
+          <label for="password">
+            Password:
+            <br>
+            <input type="text" id="regPassword" name="password">
+          </label>
+          <br>
+          <label for="password">
+            Retype Password:
+            <br>
+            <input type="text" id="regConfirmPassword" name="confirmPassword">
+          </label>
+          <br>
+          <button type="submit">Register</button>
+        </form>
+      </div>
+
+
+
     </div>
   </body>
 </html>

@@ -10,11 +10,11 @@ html {
   color: white;
   font-family: monospace;
 }
-
-#indexHeader {
+//used on the index page:
+.header {
   background: $mid_teal;
   text-align: center;
-  color:$shadow_teal;
+  color:black;
   width:100vw;
   height:5em;
   top:0;
@@ -32,7 +32,7 @@ html {
   margin-top:20em;
 }
 
-#loginBox {
+.indexBox {
     background: $mid_teal;
     border: solid black;
     box-shadow: 10px 10px $shadow_teal;
@@ -57,3 +57,5 @@ html {
       }
     }
 }
+
+//used on the profile page:

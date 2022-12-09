@@ -4,10 +4,10 @@ html {
   font-family: monospace;
 }
 
-#indexHeader {
+.header {
   background: rgb(80, 124, 124);
   text-align: center;
-  color: rgb(30, 45, 45);
+  color: black;
   width: 100vw;
   height: 5em;
   top: 0;
@@ -24,7 +24,7 @@ html {
   margin-top: 20em;
 }
 
-#loginBox {
+.indexBox {
   background: rgb(80, 124, 124);
   border: solid black;
   box-shadow: 10px 10px rgb(30, 45, 45);
@@ -34,15 +34,15 @@ html {
   align-items: center;
   width: 30em;
 }
-#loginBox form {
+.indexBox form {
   display: flex;
   flex-direction: column;
   gap: 0.1em;
 }
-#loginBox form input {
+.indexBox form input {
   background-color: rgb(235, 235, 235);
 }
-#loginBox form button {
+.indexBox form button {
   width: 50%;
   align-self: center;
   margin-bottom: 0.5em;
