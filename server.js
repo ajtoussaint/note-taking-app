@@ -13,6 +13,8 @@ const { ObjectID } = require('mongodb');//might not need this ?
 const mongoose = require('mongoose');
 //need this for accessing env variables
 require('dotenv').config();
+//imported from Modles folder for use with mongoose
+const User = require('./models/User');
 
 //before anything esle connect mongoose to the db
 mongoose
