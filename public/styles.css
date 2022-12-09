@@ -65,3 +65,26 @@ html {
 #noTopicsFound {
   text-align: center;
 }
+
+#topicList {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.topic {
+  list-style-type: upper-roman;
+  background: rgb(80, 124, 124);
+  margin: 2em;
+  box-shadow: 5px 5px rgb(30, 45, 45);
+  text-align: center;
+  font-size: 2em;
+  padding: 5px;
+}
+
+.topicLink {
+  text-decoration: none;
+  color: rgb(235, 235, 235);
+}
+.topicLink:hover {
+  color: black;
+}

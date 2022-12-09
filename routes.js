@@ -13,13 +13,19 @@ module.exports = function (app, User){
   app.route("/login")
     .post(passport.authenticate('local', {failureRedirect:'/'}), function (req,res) {
       console.log("LOGIN ATTEMPT BY: ", req.body);
-      //res.render("pug/profile",{user:req.body.username});
       res.redirect("/profile");
     });
 
   app.route("/profile")
     .get(ensureAuthenticated, function (req,res) {
       console.log("IN PROFILE OF: ", req.user.username);
+      //access DB, get list of all topics associated with the user, pass into pug
+      //jk I should already have it
+
+
+
+
+
       res.render("pug/profile", {user:req.user.username,topicList:["Computer Science", "Philosophy"]});
     });
 
@@ -41,7 +47,8 @@ module.exports = function (app, User){
             console.log("CREATING NEW USER");
             let myUser = new User({
               username:req.body.username,
-              password:hash
+              password:hash,
+              topicList:[]
             });
             myUser.save((err, data) =>{
               if(err){
@@ -68,6 +75,13 @@ module.exports = function (app, User){
           if(err){ return next(err); }
           res.redirect('/');
         });
+      });
+
+    app.route('/topic')
+      .post((req,res) => {
+        console.log("CREATING NEW TOPIC " + req.body.topic);
+        //Need a way to refresh the topic list after doing this
+        res.redirect('/profile');
       });
 
     function ensureAuthenticated(req,res,next) {

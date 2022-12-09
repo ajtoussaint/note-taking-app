@@ -17,11 +17,11 @@ body
       else
         ul#topicList
           each topic in topicList
-            li
-              a(href='/notes/'+ topic)
+            li(class="topic")
+              a(href='/notes/'+ topic class="topicLink")
                 |#{topic}
     #createTopic
-      form#newTopicForm(action='/topic' method=post)
+      form#newTopicForm(action='/topic' method="post")
         label(for='topic')
           |New Topic Name:
           input#topicInput(type="text" name="topic")

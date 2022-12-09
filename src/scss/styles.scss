@@ -76,3 +76,26 @@ html {
 #noTopicsFound{
   text-align: center;
 }
+
+#topicList{
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.topic{
+  list-style-type: upper-roman;
+  background:$mid_teal;
+  margin:2em;
+  box-shadow: 5px 5px $shadow_teal;
+  text-align: center;
+  font-size: 2em;
+  padding:5px;
+}
+
+.topicLink{
+  text-decoration: none;
+  color:$off_white;
+  &:hover {
+    color:black;
+  }
+}
