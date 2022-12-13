@@ -21,14 +21,20 @@ module.exports = function (app, User){
   app.route("/profile")
     .get(ensureAuthenticated, function (req, res, next) {
       console.log("IN PROFILE OF: ", req.user.username);
-      // @12/13 access DB, get list of all topics associated with the user, pass into pug
+      //access DB, get list of all topics associated with the user, pass into pug
       TopicList.findOne({username:req.user.username}, function(err, topicList){
-        // @ create a topic list object if none exist
+        // @polish create a topic list object if none exist
         if(err){
+          // @polish send to error page
           console.log("ERR 1")
         }else{
           console.log(topicList);
-          res.render("pug/profile", {user:req.user.username,topicList:topicList.topicList})
+          //better to send this as null so pug is not confused
+          if(topicList.topicList.length < 1){
+            res.render("pug/profile", {user:req.user.username,topicList:null});
+          }else{
+            res.render("pug/profile", {user:req.user.username,topicList:topicList.topicList});
+          }
         }
       })
     });
@@ -60,7 +66,6 @@ module.exports = function (app, User){
               }else{
                 console.log("NEW USER CREATED ", data);
                 //create a new TopicList object in the database for this user
-                // @ 12/13 may be necessary to put this as a separate function after "next()"
                 let myTopicList = new TopicList({
                   username:data.username,
                   topicList:[]
@@ -68,6 +73,7 @@ module.exports = function (app, User){
 
                 myTopicList.save((err,data) => {
                   if(err){
+                    //@polish send to error page
                     console.log("TOPIC LIST CREATION ERROR: ",err);
                   }else{
                     console.log("CREATED TOPIC LIST: ", data);
@@ -94,17 +100,26 @@ module.exports = function (app, User){
         });
       });
 
+    app.route('/topic/:topicName')
+      .get((req, res, next) => {
+        let topicName = req.params.topicName
+
+      });
+
+    //use post to create a new topic
     app.route('/topic')
       .post((req, res, next) => {
         console.log("CREATING NEW TOPIC " + req.body.topic + " FOR " + req.user.username);
-        //@12/13 add new topic to the users topic list
+        //add new topic to the users topic list
         TopicList.findOne({username:req.user.username}, function(err, data){
           if(err){
+            //@polish send to error page
             console.log("ERROR RETRIEVING TOPIC LIST TO UPDATE");
           }else{
             data.topicList.push(req.body.topic);
             data.save( (err,data) => {
               if(err){
+                //@polish send to error page
                 console.log("ERROR SAVING UPDATED TOPIC LIST");
               }else{
                 res.redirect("/profile");

@@ -18,7 +18,7 @@ body
         ul#topicList
           each topic in topicList
             li(class="topic")
-              a(href='/notes/'+ topic class="topicLink")
+              a(href='/topic/'+ topic class="topicLink")
                 |#{topic}
     #createTopic
       form#newTopicForm(action='/topic' method="post")
