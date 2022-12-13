@@ -101,14 +101,16 @@ module.exports = function (app, User){
       });
 
     app.route('/topic/:topicName')
-      .get((req, res, next) => {
+      .get(ensureAuthenticated, (req, res, next) => {
         let topicName = req.params.topicName
-
+        console.log("GETTING NOTES FOR TOPIC: " + topicName);
+        let placeHolderNotes = null;
+        res.render('pug/topic',{topic:topicName,notes:placeHolderNotes})
       });
 
     //use post to create a new topic
     app.route('/topic')
-      .post((req, res, next) => {
+      .post(ensureAuthenticated, (req, res, next) => {
         console.log("CREATING NEW TOPIC " + req.body.topic + " FOR " + req.user.username);
         //add new topic to the users topic list
         TopicList.findOne({username:req.user.username}, function(err, data){

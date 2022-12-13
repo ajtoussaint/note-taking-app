@@ -1,0 +1,17 @@
+doctype html
+head
+  link(rel='stylesheet' type='text/css' href='../public/styles.css')
+body
+#topicHeader.header
+  h1
+    | #{topic}
+    a(href='/logout' id="logoutButton")
+      | Logout
+#topicContent.content
+  if !notes
+    h1#noNotesFound
+      |No Notes Found for this topic!
+      br
+      |Add your first note under #{topic}
+  else
+    |you've got notes
