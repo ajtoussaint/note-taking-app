@@ -131,6 +131,8 @@ module.exports = function (app, User){
         })
       }, (req, res, next) => {
         //redirecting to /profile should refresh the topic list
+
+        //@polish a refresh function may make this more robust
         res.redirect('/profile');
       });
 
