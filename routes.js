@@ -1,6 +1,8 @@
 const passport = require('passport');
 //encryption
 const bcrypt = require('bcrypt');
+//include the topicList model
+const TopicList = require('./models/TopicList');
 
 
 module.exports = function (app, User){
@@ -17,16 +19,18 @@ module.exports = function (app, User){
     });
 
   app.route("/profile")
-    .get(ensureAuthenticated, function (req,res) {
+    .get(ensureAuthenticated, function (req, res, next) {
       console.log("IN PROFILE OF: ", req.user.username);
-      //access DB, get list of all topics associated with the user, pass into pug
-      //jk I should already have it
-
-
-
-
-
-      res.render("pug/profile", {user:req.user.username,topicList:["Computer Science", "Philosophy"]});
+      // @12/13 access DB, get list of all topics associated with the user, pass into pug
+      TopicList.findOne({username:req.user.username}, function(err, topicList){
+        // @ create a topic list object if none exist
+        if(err){
+          console.log("ERR 1")
+        }else{
+          console.log(topicList);
+          res.render("pug/profile", {user:req.user.username,topicList:topicList.topicList})
+        }
+      })
     });
 
     app.route("/register")
@@ -47,8 +51,7 @@ module.exports = function (app, User){
             console.log("CREATING NEW USER");
             let myUser = new User({
               username:req.body.username,
-              password:hash,
-              topicList:[]
+              password:hash
             });
             myUser.save((err, data) =>{
               if(err){
@@ -56,6 +59,20 @@ module.exports = function (app, User){
                 res.redirect('/');
               }else{
                 console.log("NEW USER CREATED ", data);
+                //create a new TopicList object in the database for this user
+                // @ 12/13 may be necessary to put this as a separate function after "next()"
+                let myTopicList = new TopicList({
+                  username:data.username,
+                  topicList:[]
+                });
+
+                myTopicList.save((err,data) => {
+                  if(err){
+                    console.log("TOPIC LIST CREATION ERROR: ",err);
+                  }else{
+                    console.log("CREATED TOPIC LIST: ", data);
+                  }
+                })
                 next(null,data);
               }
             });
@@ -78,9 +95,25 @@ module.exports = function (app, User){
       });
 
     app.route('/topic')
-      .post((req,res) => {
-        console.log("CREATING NEW TOPIC " + req.body.topic);
-        //Need a way to refresh the topic list after doing this
+      .post((req, res, next) => {
+        console.log("CREATING NEW TOPIC " + req.body.topic + " FOR " + req.user.username);
+        //@12/13 add new topic to the users topic list
+        TopicList.findOne({username:req.user.username}, function(err, data){
+          if(err){
+            console.log("ERROR RETRIEVING TOPIC LIST TO UPDATE");
+          }else{
+            data.topicList.push(req.body.topic);
+            data.save( (err,data) => {
+              if(err){
+                console.log("ERROR SAVING UPDATED TOPIC LIST");
+              }else{
+                res.redirect("/profile");
+              }
+            })
+          }
+        })
+      }, (req, res, next) => {
+        //redirecting to /profile should refresh the topic list
         res.redirect('/profile');
       });
 
