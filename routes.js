@@ -3,7 +3,8 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 //include the topicList model
 const TopicList = require('./models/TopicList');
-//const Note = require('./models/Note');
+//include Note model
+const Note = require('./models/Note');
 
 module.exports = function (app, User){
   app.route('/')
@@ -133,6 +134,41 @@ module.exports = function (app, User){
           }
         })
       });
+
+      //route to create a brand new note
+      app.route('/note')
+        .get(ensureAuthenticated, (req, res) =>{
+          console.log("ENTERING NOTE TAKING PAGE");
+          //@12/14 get the topics and add them to a dropdown
+          //@12/14 if sent here by the topic page add a query or something that automatically uses that topic as a default
+          res.render('pug/createNote');
+        });
+
+      app.route('/note')
+        .post(ensureAuthenticated, (req,res) => {
+          console.log("CREATING A NEW NOTE: " + req.body.createNoteTopic);
+          //@12/19 need to update tags here once I have a solution for that
+          //@12/19 don't create two notes of same title in same topic
+          let myNote = new Note({
+            topic: req.body.createNoteTopic,
+            title: req.body.createNoteTitle,
+            dateCreated:(new Date()).toShortDateString(),
+            ownerName: req.user.username,
+            content: req.body.createNoteNote,
+            tags:[]
+          });
+          myNote.save((err,data) => {
+            if(err){
+              //@polish error message
+              console.log(err);
+            }else{
+              console.log("CREATED NOTE: ", data);
+              res.redirect('/profile');
+            }
+          });
+        });
+
+      //app.route('/notes/:noteName')
 
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){

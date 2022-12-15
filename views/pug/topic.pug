@@ -13,6 +13,9 @@ body
       |No Notes Found for this topic!
       br
       |Add your first note under #{topic}
+      br
+      a(href='/note' id="createNoteLink")
+        |Create a Note!
   else
     ul#noteList
       each note in notes

@@ -88,3 +88,8 @@ html {
 .topicLink:hover {
   color: black;
 }
+
+#createNoteNote {
+  width: 70vw;
+  height: 70vh;
+}

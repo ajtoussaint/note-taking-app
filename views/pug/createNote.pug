@@ -1,0 +1,28 @@
+doctype html
+head
+  link(rel='stylesheet' type='text/css' href='../public/styles.css')
+body
+#createNoteHeader.header
+  h1
+    | Create a New Note
+    a(href='/logout' id="logoutButton")
+      | Logout
+#createNoteContent.content
+  form#createNoteForm(action='/note' method='post')
+    label(for='createNoteTopic')
+      |Topic:
+      input#createNoteTopic(type='text' name='createNoteTopic')
+    br
+    label(for='createNoteTitle')
+      |Title:
+      input#createNoteTitle(type='text' name='createNoteTitle')
+    br
+    lable(for='createNoteNote')
+      |note (Parsed by pug)
+      br
+      textarea#createNoteNote(name='createNoteNote')
+    br
+    label(for='tags')
+      |Tags will be implemented somehow
+    br
+    button(type='submit') Submit
