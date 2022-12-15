@@ -106,6 +106,8 @@ module.exports = function (app, User){
       .get(ensureAuthenticated, (req, res, next) => {
         let topicName = req.params.topicName
         console.log("GETTING NOTES FOR TOPIC: " + topicName);
+
+        //@12/19 implement the actual notes
         let placeHolderNotes = null;
         res.render('pug/topic',{topic:topicName,notes:placeHolderNotes})
       });
@@ -152,7 +154,7 @@ module.exports = function (app, User){
           let myNote = new Note({
             topic: req.body.createNoteTopic,
             title: req.body.createNoteTitle,
-            dateCreated:(new Date()).toShortDateString(),
+            dateCreated:(new Date()).toLocaleDateString('en-US'),
             ownerName: req.user.username,
             content: req.body.createNoteNote,
             tags:[]
@@ -168,7 +170,21 @@ module.exports = function (app, User){
           });
         });
 
-      //app.route('/notes/:noteName')
+      app.route('/notes/:noteName')
+        .get(ensureAuthenticated, (req,res) => {
+          let noteTitle = req.params.noteName
+          console.log("DISPLAYING NOTE: " , noteTitle);
+          Note.findOne({title:noteTitle}, function(err, data){
+            if(err){
+              //@polish errmess
+              console.log(err);
+            }else{
+              console.log("FOUND NOTE: ", data);
+              //@12/19 find a way to get the main text of the note translated as markdown or whatever
+              res.render('pug/note',{topic:data.topic, title:data.title, content:data.content})
+            }
+          });
+        })
 
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){
