@@ -10,5 +10,7 @@ body
 #noteContent.content
   h1
     |#{title}
+  h3
+    |Created on: #{createdOn}
   #noteMainContent
-    #{content}
+    !=content
