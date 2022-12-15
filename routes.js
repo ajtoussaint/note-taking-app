@@ -3,7 +3,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 //include the topicList model
 const TopicList = require('./models/TopicList');
-
+//const Note = require('./models/Note');
 
 module.exports = function (app, User){
   app.route('/')
@@ -130,10 +130,8 @@ module.exports = function (app, User){
           }
         })
       }, (req, res, next) => {
-        //redirecting to /profile should refresh the topic list
-
-        //@polish a refresh function may make this more robust
-        res.redirect('/profile');
+        //redirecting to /current page should refresh the topic list
+        res.redirect('back');
       });
 
     function ensureAuthenticated(req,res,next) {

@@ -14,4 +14,7 @@ body
       br
       |Add your first note under #{topic}
   else
-    |you've got notes
+    ul#noteList
+      each note in notes
+        li(class="note")
+          |#{note.title}
