@@ -48,9 +48,10 @@ module.exports = function (app, User){
             next(err);
           } else if (user.length > 0){
             console.log("This username is already taken", req.body.username, user);
-            //could redirect to home again with a pug variable to show the message
+            //@polish could redirect to home again with a pug variable to show the message
             res.redirect('/');
           } else if (req.body.password != req.body.confirmPassword){
+            //@polish should add stricter password requirements
             console.log("passwords must match");
             res.redirect('/');
           } else{
@@ -118,20 +119,19 @@ module.exports = function (app, User){
             //@polish send to error page
             console.log("ERROR RETRIEVING TOPIC LIST TO UPDATE");
           }else{
+            //@polish prevent the same topic from being made twice
             data.topicList.push(req.body.topic);
             data.save( (err,data) => {
               if(err){
                 //@polish send to error page
                 console.log("ERROR SAVING UPDATED TOPIC LIST");
               }else{
-                res.redirect("/profile");
+                console.log("return to profile")
+                res.redirect("back");
               }
             })
           }
         })
-      }, (req, res, next) => {
-        //redirecting to /current page should refresh the topic list
-        res.redirect('back');
       });
 
     function ensureAuthenticated(req,res,next) {
