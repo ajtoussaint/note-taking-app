@@ -125,6 +125,60 @@ a{
   color:inherit !important;
 }
 
+//used in the topic page
+$noteCardBorder:solid black;
+
+#noteList{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap:20px;
+  max-width: 70vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.noteCard{
+  display:grid;
+  grid-template-rows:auto auto;
+  grid-template-columns: auto;
+  background-color: $mid_teal;
+  text-decoration: none;
+  border-bottom:$noteCardBorder;
+  border-left: $noteCardBorder;
+  margin-bottom:20px;
+
+    .noteCardTitle{
+      display: flex;
+      flex-direction: row;
+      .noteCardTitleBackground{
+        background-color: $dark_teal;
+        border-top:$noteCardBorder;
+        border-right:$noteCardBorder;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5em 1em 0.5em 1em
+      }
+      .noteCardTitleVoid{
+        background-color: $back_gray;
+        width:100%;
+        border-top:$back_gray;
+        border-right:$back_gray;
+      }
+    }
+    .noteCardInfo{
+      border-right: $noteCardBorder;
+      border-top: $noteCardBorder;
+      padding:1em 0 1em 1em;
+      color:black;
+      min-height: 200px;
+      min-width:500px;
+    }
+}
+
+
+
 //Used in the create note page
 textarea{
   width:70vw;

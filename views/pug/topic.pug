@@ -17,10 +17,23 @@ body
   else
     h1
       |#{topic}
-    ul#noteList
-      each note in notes
-        li(class="note")
-          a(href='/notes/'+ note.title class="noteLink")
-            |#{note.title}
     a(href='/note' + "?topic=" + topic id="createNoteLink")
-      |Create a note under #{topic}
+      |Create a new note under #{topic}
+    br
+    #noteList
+      each note in notes
+        a(href='/notes/'+ note.title class="noteCard")
+          .noteCardTitle
+            .noteCardTitleBackground
+              |#{note.title}
+            .noteCardTitleVoid
+          .noteCardInfo
+            |Created On: #{note.dateCreated}
+            br
+            if(note.dateUpdated)
+              |Updated On: #{note.dateUpdated}
+              br
+            if(note.tags.length > 3)
+              |Tags: #{note.tags[0]}, #{note.tags[1]}, #{note.tags[2]}...
+            else
+              |Tags: #{note.tags.join(",")}

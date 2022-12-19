@@ -241,6 +241,9 @@ module.exports = function (app, User){
         app.route('/edit/:noteName')
           .post(ensureAuthenticated, (req,res) => {
             let noteTitle = req.params.noteName;
+            let tagArray = req.body.editNoteTags ?
+             req.body.editNoteTags.split(","):
+             [];
             console.log("UPDATING NOTE: " + noteTitle);
             Note.findOne({title:noteTitle, ownerName: req.user.username}, function(err,data){
               if(err){
@@ -254,7 +257,7 @@ module.exports = function (app, User){
                 data.title = req.body.editNoteTitle;
                 data.dateUpdated = (new Date()).toLocaleDateString('en-US');
                 data.content = req.body.editNoteNote;
-                data.tags = req.body.editNoteTags;
+                data.tags = tagArray;
                 data.save((err, updatedData) => {
                   if(err || !data){
                     //@polish errmess
