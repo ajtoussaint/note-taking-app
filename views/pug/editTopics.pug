@@ -1,0 +1,16 @@
+include /universalHeader
+
+doctype html
+head
+  link(rel='stylesheet' type='text/css' href='../public/styles.css')
+body
++universalHeader
+#editTopicsContent.content
+  h1
+    |Your Topics:
+  each topic in data.topicList
+    .topicRow
+      h2
+        |#{topic}
+      a(href='/deleteTopic/' + topic class="deleteLink")
+        |Delete Topic

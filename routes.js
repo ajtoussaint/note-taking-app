@@ -32,6 +32,7 @@ module.exports = function (app, User){
           console.log("ERR 1")
         }else{
           // @polish create a topic list object if none exist
+          //@12/19 display the number of notes in each topic
           console.log(topicList);
             res.render("pug/profile", {user:req.user.username,topicList:topicList.topicList});
         }
@@ -257,6 +258,21 @@ module.exports = function (app, User){
               }
             })
           });
+
+      app.route('/editTopics')
+        .get(ensureAuthenticated, (req,res) => {
+          TopicList.findOne({username:req.user.username}, function(err,data){
+            if(err){
+              //@polish errmess
+            }else if(!data){
+              //@polish errmess
+              console.log("no data found");
+              res.redirect('/profile');
+            }else{
+              res.render('pug/editTopics', {data:data});
+            }
+          })
+        })
 
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){

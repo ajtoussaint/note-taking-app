@@ -4,6 +4,13 @@ html {
   font-family: monospace;
 }
 
+a {
+  color: white;
+}
+a:hover {
+  color: gold;
+}
+
 .header {
   background: rgb(80, 124, 124);
   text-align: center;
@@ -64,6 +71,10 @@ html {
   justify-content: center;
   text-align: center;
 }
+.headerButton:hover {
+  background: gray;
+  color: black;
+}
 
 #profileContent {
   margin-top: 7em;
@@ -87,17 +98,29 @@ html {
   font-size: 2em;
   padding: 5px;
 }
+.topic:hover {
+  color: black;
+}
 
 .topicLink {
   text-decoration: none;
-  color: rgb(235, 235, 235);
-}
-.topicLink:hover {
-  color: black;
+  color: inherit !important;
 }
 
 textarea {
   width: 70vw;
   height: 70vh;
   tab-size: 2;
+}
+
+.deleteLink {
+  background-color: rgb(235, 235, 235);
+}
+.deleteLink:hover {
+  color: red;
+}
+
+.topicRow {
+  display: flex;
+  flex-direction: row;
 }

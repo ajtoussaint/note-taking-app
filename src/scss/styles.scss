@@ -10,6 +10,14 @@ html {
   color: white;
   font-family: monospace;
 }
+
+//general link styling
+a{
+  color:white;
+  &:hover {
+    color:gold;
+  }
+}
 //used on the index page:
 .header {
   background: $mid_teal;
@@ -74,6 +82,10 @@ html {
   align-items:center;
   justify-content: center;
   text-align: center;
+  &:hover{
+    background:gray;
+    color:black;
+  }
 }
 
 
@@ -97,14 +109,14 @@ html {
   text-align: center;
   font-size: 2em;
   padding:5px;
+  &:hover {
+    color:black;
+  }
 }
 
 .topicLink{
   text-decoration: none;
-  color:$off_white;
-  &:hover {
-    color:black;
-  }
+  color:inherit !important;
 }
 
 //Used in the create note page
@@ -112,4 +124,17 @@ textarea{
   width:70vw;
   height:70vh;
   tab-size: 2;
+}
+
+//used in editTopics
+.deleteLink{
+  background-color: $off_white;
+  &:hover{
+    color:red;
+  }
+}
+
+.topicRow{
+  display:flex;
+  flex-direction: row;
 }
