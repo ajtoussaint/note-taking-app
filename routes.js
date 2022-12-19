@@ -162,8 +162,8 @@ module.exports = function (app, User){
           let tagArray = req.body.createNoteTags ?
            req.body.createNoteTags.split(","):
            [];
-          //@12/19 don't create two notes of same title in same topic
-          Note.findOne({title:req.body.createNoteTitle}, function(err,data){
+          //don't create two notes of same title in same topic
+          Note.findOne({title:req.body.createNoteTitle, ownerName:req.user.username}, function(err,data){
             if(err){
               //@polish errmess
             }else if(data){
