@@ -12,11 +12,15 @@ body
       br
       |Add your first note under #{topic}
       br
-      a(href='/note' id="createNoteLink")
+      a(href='/note' + "?topic=" + topic id="createNoteLink")
         |Create a Note!
   else
+    h1
+      |#{topic}
     ul#noteList
       each note in notes
         li(class="note")
           a(href='/notes/'+ note.title class="noteLink")
             |#{note.title}
+    a(href='/note' + "?topic=" + topic id="createNoteLink")
+      |Create a note under #{topic}

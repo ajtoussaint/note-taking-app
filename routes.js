@@ -150,8 +150,18 @@ module.exports = function (app, User){
         .get(ensureAuthenticated, (req, res) =>{
           console.log("ENTERING NOTE TAKING PAGE");
           //@12/14 get the topics and add them to a dropdown
-          //@12/14 if sent here by the topic page add a query or something that automatically uses that topic as a default
-          res.render('pug/createNote');
+          TopicList.findOne({username:req.user.username}, function(err,data){
+            if(err){
+              //@polish errmess
+            }else if(!data){
+              //@polish errmess
+            }else{
+              //default will be included in query if applicable
+              console.log("PREPARING TO CREATE NOTE:", data.topicList, " FOR TOPIC : ", req.query.topic);
+              res.render('pug/createNote', {defaultTopic: req.query.topic, topicList:data.topicList});
+            }
+          });
+
         });
 
       app.route('/note')
@@ -211,7 +221,6 @@ module.exports = function (app, User){
         .get(ensureAuthenticated, (req,res) => {
           let noteTitle = req.params.noteName;
           if(!noteTitle){
-            //@12/19 create this pug so that with no data it shows up
             res.render('pug/edit');
           }else{
             Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err,data){
@@ -298,7 +307,6 @@ module.exports = function (app, User){
           }
         });
 
-      //@12/19 delete route for post
       app.route('/delete/:dataType/:dataTitle')
         .post(ensureAuthenticated, (req,res) => {
           console.log("DELETING..." + req.params.dataType + req.params.dataTitle);

@@ -9,7 +9,14 @@ body
   form#createNoteForm(action='/note' method='post')
     label(for='createNoteTopic')
       |Topic:
-      input#createNoteTopic(type='text' name='createNoteTopic')
+      select#createNoteTopic(name='createNoteTopic')
+        for topic in topicList
+          if (topic === defaultTopic)
+            option(value=topic selected)
+              |#{topic}
+          else
+            option(value=topic)
+              |#{topic}
     br
     label(for='createNoteTitle')
       |Title:

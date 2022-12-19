@@ -19,23 +19,6 @@ a{
   }
 }
 //used on the index page:
-.header {
-  background: $mid_teal;
-  text-align: center;
-  color:black;
-  width:100vw;
-  height:5em;
-  top:0;
-  left:0;
-  position:fixed;
-  border-bottom: solid black;
-  box-shadow: 0px 5px $shadow_teal;
-  display:flex;
-  flex-direction:row;
-  justify-content:space-around;
-  align-items: center;
-}
-
 .content{
   display: flex;
   align-items: center;
@@ -69,7 +52,21 @@ a{
     }
 }
 
-//used on the profile page:
+//used in universal header:
+.header {
+  background: $mid_teal;
+  text-align: center;
+  color:black;
+  width:100vw;
+  height:5em;
+  top:0;
+  left:0;
+  position:fixed;
+  border-bottom: solid black;
+  box-shadow: 0px 5px $shadow_teal;
+  display:grid;
+  grid-template-columns: 20% 60% 20%
+}
 
 .headerButton{
   color:black;
@@ -88,6 +85,15 @@ a{
   }
 }
 
+.headerSide{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+  justify-content: center;
+  align-items: center;
+}
+
+//used on the profile page:
 
 #profileContent{
   margin-top:7em;
