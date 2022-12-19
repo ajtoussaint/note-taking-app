@@ -159,25 +159,37 @@ module.exports = function (app, User){
       app.route('/note')
         .post(ensureAuthenticated, (req,res) => {
           console.log("CREATING A NEW NOTE: " + req.body.createNoteTopic);
-          //@12/19 need to update tags here once I have a solution for that
+          let tagArray = req.body.createNoteTags ?
+           req.body.createNoteTags.split(","):
+           [];
           //@12/19 don't create two notes of same title in same topic
-          let myNote = new Note({
-            topic: req.body.createNoteTopic,
-            title: req.body.createNoteTitle,
-            dateCreated:(new Date()).toLocaleDateString('en-US'),
-            ownerName: req.user.username,
-            content: req.body.createNoteNote,
-            tags:[]
-          });
-          myNote.save((err,data) => {
+          Note.findOne({title:req.body.createNoteTitle}, function(err,data){
             if(err){
-              //@polish error message
-              console.log(err);
+              //@polish errmess
+            }else if(data){
+              //@polish errmess
+              console.log("CANNOT CREATE TWO NOTES OF SAME TITLE: ", req.body.createNotetitle);
+              res.redirect("/profile");
             }else{
-              console.log("CREATED NOTE: ", data);
-              res.redirect('/profile');
+              let myNote = new Note({
+                topic: req.body.createNoteTopic,
+                title: req.body.createNoteTitle,
+                dateCreated:(new Date()).toLocaleDateString('en-US'),
+                ownerName: req.user.username,
+                content: req.body.createNoteNote,
+                tags: tagArray
+              });
+              myNote.save((err,data) => {
+                if(err){
+                  //@polish error message
+                  console.log(err);
+                }else{
+                  console.log("CREATED NOTE: ", data);
+                  res.redirect('/profile');
+                }
+              });
             }
-          });
+          })
         });
 
       app.route('/notes/:noteName')
@@ -190,7 +202,6 @@ module.exports = function (app, User){
               console.log(err);
             }else{
               console.log("FOUND NOTE: ", data);
-              //@12/19 find a way to get the main text of the note translated as markdown or whatever
               let noteContent = markdown.render(data.content)
               res.render('pug/note',{topic:data.topic, title:data.title,createdOn:data.dateCreated, content:noteContent})
             }

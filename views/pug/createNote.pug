@@ -21,7 +21,8 @@ body
       textarea#createNoteNote(name='createNoteNote')
     br
     label(for='tags')
-      |Tags will be implemented somehow
+      |Tags (input tags separated by commas)
+      input#createNoteTags(type='text' name='createNoteTags')
     br
     button(type='submit') Submit
   script(src='./public/textareaFix.js' type="text/javascript")
