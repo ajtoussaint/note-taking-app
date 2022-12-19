@@ -1,12 +1,10 @@
-octype html
+include /universalHeader
+
+doctype html
 head
   link(rel='stylesheet' type='text/css' href='../public/styles.css')
 body
-#noteHeader.header
-  h1
-    | #{topic}
-    a(href='/logout' id="logoutButton")
-      | Logout
++universalHeader
 #noteContent.content
   h1
     |#{title}

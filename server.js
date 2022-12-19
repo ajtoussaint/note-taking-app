@@ -41,6 +41,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //pug view engine setup
 app.set('view engine', 'pug');
 
+//set basedir for pug files to draw form
+app.locals.basedir = './views/pug'
+
 //set up sessions
 app.use(session({
   secret: process.env.SESSION_SECRET,

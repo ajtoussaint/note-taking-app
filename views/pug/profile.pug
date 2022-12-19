@@ -1,12 +1,10 @@
+include /universalHeader
+
 doctype html
 head
   link(rel='stylesheet' type='text/css' href='../public/styles.css')
 body
-  #profileHeader.header
-    h1
-      | Notes by #{user}
-      a(href='/logout' id="logoutButton")
-        | Logout
+  +universalHeader
   #profileContent.content
     #topicContainer
       if !topicList

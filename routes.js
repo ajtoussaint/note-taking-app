@@ -27,11 +27,11 @@ module.exports = function (app, User){
       console.log("IN PROFILE OF: ", req.user.username);
       //access DB, get list of all topics associated with the user, pass into pug
       TopicList.findOne({username:req.user.username}, function(err, topicList){
-        // @polish create a topic list object if none exist
         if(err){
           // @polish send to error page
           console.log("ERR 1")
         }else{
+          // @polish create a topic list object if none exist
           console.log(topicList);
           //better to send this as null so pug is not confused
           if(topicList.topicList.length < 1){
@@ -109,10 +109,17 @@ module.exports = function (app, User){
       .get(ensureAuthenticated, (req, res, next) => {
         let topicName = req.params.topicName
         console.log("GETTING NOTES FOR TOPIC: " + topicName);
-
-        //@12/19 implement the actual notes
-        let placeHolderNotes = null;
-        res.render('pug/topic',{topic:topicName,notes:placeHolderNotes})
+        Note.find({ownerName:req.user.username}, function(err, data){
+          if(err){
+            //@polish errmess
+          }else if(data.length < 1){
+            console.log("NO NOTES Found");
+            res.render('pug/topic',{topic:topicName});
+          }else{
+            console.log("found notes: ",  data)
+            res.render('pug/topic',{topic:topicName,notes:data});
+          }
+        })
       });
 
     //use post to create a new topic
