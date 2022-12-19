@@ -7,15 +7,13 @@ const TopicList = require('./models/TopicList');
 const Note = require('./models/Note');
 //pug is used here to compile text returned from notes
 const pug = require('pug');
+//markdown parses the body of the notes
+const markdown = require('markdown-it')();
 
 module.exports = function (app, User){
   app.route('/')
     .get(ensureNotAuthenticated, function (req,res) {
-      //testing area @12/19 this is an example of how to render the pug from the note content
-      let testText = "h2\n\t|Here is some text\np\n\t|some more text";
-      let testTextCompiled = pug.render(testText);
-      console.log(testTextCompiled);
-      res.render("pug/index",{text:testTextCompiled});
+      res.render("pug/index");
     });
 
   app.route("/login")
@@ -186,7 +184,8 @@ module.exports = function (app, User){
             }else{
               console.log("FOUND NOTE: ", data);
               //@12/19 find a way to get the main text of the note translated as markdown or whatever
-              res.render('pug/note',{topic:data.topic, title:data.title,createdOn:data.dateCreated, content:data.content})
+              let noteContent = markdown.render(data.content)
+              res.render('pug/note',{topic:data.topic, title:data.title,createdOn:data.dateCreated, content:noteContent})
             }
           });
         })
