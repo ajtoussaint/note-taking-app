@@ -203,7 +203,7 @@ module.exports = function (app, User){
             }else{
               console.log("FOUND NOTE: ", data);
               let noteContent = markdown.render(data.content)
-              res.render('pug/note',{topic:data.topic, title:data.title,createdOn:data.dateCreated, content:noteContent})
+              res.render('pug/note',{topic:data.topic, title:data.title,createdOn:data.dateCreated, content:noteContent, tags: data.tags})
             }
           });
         })

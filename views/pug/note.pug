@@ -12,3 +12,7 @@ body
     |Created on: #{createdOn}
   #noteMainContent
     !=content
+  #noteTags
+    each tag in tags
+      .noteTag
+        |#{tag}
