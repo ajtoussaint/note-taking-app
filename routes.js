@@ -106,7 +106,7 @@ module.exports = function (app, User){
         let topicName = req.params.topicName
         console.log("GETTING NOTES FOR TOPIC: " + topicName);
         //@feat filter
-        Note.find({ownerName:req.user.username}, function(err, data){
+        Note.find({ownerName:req.user.username, topic:topicName}, function(err, data){
           if(err){
             //@polish errmess
           }else if(data.length < 1){
@@ -195,9 +195,10 @@ module.exports = function (app, User){
           let noteTitle = req.params.noteName
           console.log("DISPLAYING NOTE: " , noteTitle);
           Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err, data){
-            if(err){
+            if(err || !data){
               //@polish errmess
               console.log(err);
+              res.redirect("/404");
             }else{
               console.log("FOUND NOTE: ", data);
               let noteContent = markdown.render(data.content)
@@ -272,7 +273,91 @@ module.exports = function (app, User){
               res.render('pug/editTopics', {data:data});
             }
           })
-        })
+        });
+
+      app.route('/delete/:dataType/:dataTitle')
+        .get(ensureAuthenticated, (req,res) => {
+          if(req.params.dataType == "topic"){
+            res.render('pug/delete',{dataType:req.params.dataType, title:req.params.dataTitle})
+          }else if(req.params.dataType == "note"){
+            Note.findOne({title:req.params.dataTitle, ownerName:req.user.username},function(err,data){
+              if(err){
+                //@polish errmess
+              }else if(!data){
+                //@polish errmess
+                console.log("no data found");
+                res.redirect('/profile');
+              }else{
+                res.render('pug/delete',{dataType:req.params.dataType, data:data});
+              }
+            });
+          }else{
+            //@polish errmess
+            console.log("UNKNOWN DATATYPE")
+            res.redirect("/profile");
+          }
+        });
+
+      //@12/19 delete route for post
+      app.route('/delete/:dataType/:dataTitle')
+        .post(ensureAuthenticated, (req,res) => {
+          console.log("DELETING..." + req.params.dataType + req.params.dataTitle);
+          if(req.params.dataType == "topic"){
+            TopicList.findOne({username:req.user.username}, function(err,data){
+              if(err){
+                //@polish errmess
+              }else if(!data){
+                //@polish errmess
+                console.log("no topic data found");
+                res.redirect('/profile');
+              }else{
+                data.topicList = data.topicList.filter(topic => topic !== req.params.dataTitle);
+                data.save((err,updatedData) => {
+                  if(err){
+                    //@polish errmess
+                  }else if(!updatedData){
+                    //@polish errmess
+                    console.log("no updata found");
+                    res.redirect('/profile');
+                  }else{
+                    console.log("TOPIC WAS DELETED FROM LIST: " + req.params.dataTitle);
+                    Note.deleteMany({topic:req.params.dataTitle, ownerName:req.user.username}, function(err,data){
+                      if(err){
+                        //@polish errmess
+                      }else if(!data){
+                        //@polish errmess
+                        console.log("no data found");
+                        res.redirect('/profile');
+                      }else{
+                        console.log("ALL NOTES DELTED UNDER TOPIC: " + req.params.dataTitle);
+                        res.redirect("/profile");
+                      }
+                    })
+                  }
+                });
+              }
+            });
+          }else if(req.params.dataType == "note"){
+            Note.deleteOne({title:req.params.dataTitle, ownerName:req.user.username},function(err,data){
+              if(err){
+                //@polish errmess
+              }else if(!data){
+                //@polish errmess
+                console.log("no data found");
+                res.redirect('/profile');
+              }else{
+                //@polish, this should send you somewhere more useful
+                console.log("DELETED: " + req.params.dataTitle);
+                res.redirect('/profile');
+              }
+            })
+
+          }else{
+            //@polish errmess
+            console.log("UNKNOWN DATATYPE")
+            res.redirect("/profile");
+          }
+        });
 
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){
