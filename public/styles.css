@@ -96,7 +96,7 @@ html {
   color: black;
 }
 
-#createNoteNote {
+textarea {
   width: 70vw;
   height: 70vh;
   tab-size: 2;

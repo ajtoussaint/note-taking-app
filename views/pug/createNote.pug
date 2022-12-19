@@ -16,11 +16,11 @@ body
       input#createNoteTitle(type='text' name='createNoteTitle')
     br
     lable(for='createNoteNote')
-      |note (Parsed by pug)
+      |note (Parsed with markdown-it)
       br
       textarea#createNoteNote(name='createNoteNote')
     br
-    label(for='tags')
+    label(for='createNoteTags')
       |Tags (input tags separated by commas)
       input#createNoteTags(type='text' name='createNoteTags')
     br

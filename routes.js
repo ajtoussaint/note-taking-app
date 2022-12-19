@@ -33,12 +33,7 @@ module.exports = function (app, User){
         }else{
           // @polish create a topic list object if none exist
           console.log(topicList);
-          //better to send this as null so pug is not confused
-          if(topicList.topicList.length < 1){
-            res.render("pug/profile", {user:req.user.username,topicList:null});
-          }else{
             res.render("pug/profile", {user:req.user.username,topicList:topicList.topicList});
-          }
         }
       })
     });
@@ -109,6 +104,7 @@ module.exports = function (app, User){
       .get(ensureAuthenticated, (req, res, next) => {
         let topicName = req.params.topicName
         console.log("GETTING NOTES FOR TOPIC: " + topicName);
+        //@feat filter
         Note.find({ownerName:req.user.username}, function(err, data){
           if(err){
             //@polish errmess
@@ -117,6 +113,7 @@ module.exports = function (app, User){
             res.render('pug/topic',{topic:topicName});
           }else{
             console.log("found notes: ",  data)
+            //@feat more detailed notes display
             res.render('pug/topic',{topic:topicName,notes:data});
           }
         })
@@ -196,17 +193,70 @@ module.exports = function (app, User){
         .get(ensureAuthenticated, (req,res) => {
           let noteTitle = req.params.noteName
           console.log("DISPLAYING NOTE: " , noteTitle);
-          Note.findOne({title:noteTitle}, function(err, data){
+          Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err, data){
             if(err){
               //@polish errmess
               console.log(err);
             }else{
               console.log("FOUND NOTE: ", data);
               let noteContent = markdown.render(data.content)
-              res.render('pug/note',{topic:data.topic, title:data.title,createdOn:data.dateCreated, content:noteContent, tags: data.tags})
+              res.render('pug/note',{data:data, content:noteContent})
             }
           });
-        })
+        });
+
+      app.route('/edit/:noteName')
+        .get(ensureAuthenticated, (req,res) => {
+          let noteTitle = req.params.noteName;
+          if(!noteTitle){
+            //@12/19 create this pug so that with no data it shows up
+            res.render('pug/edit');
+          }else{
+            Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err,data){
+              if(err){
+                //@polish errmess
+                console.log(err);
+              }else if(!data){
+                //@polish errmess
+                console.log("NO NOTE FOUND");
+                res.redirect('back');
+              }else{
+                res.render('pug/edit', {data:data});
+              }
+            });
+          }
+        });
+
+        app.route('/edit/:noteName')
+          .post(ensureAuthenticated, (req,res) => {
+            let noteTitle = req.params.noteName;
+            console.log("UPDATING NOTE: " + noteTitle);
+            Note.findOne({title:noteTitle, ownerName: req.user.username}, function(err,data){
+              if(err){
+                //@polish errmess
+              }else if(!data){
+                //@polish errmess
+                console.log("no data found");
+                res.redirect('/profile');
+              }else{
+                data.topic = req.body.editNoteTopic;
+                data.title = req.body.editNoteTitle;
+                data.dateUpdated = (new Date()).toLocaleDateString('en-US');
+                data.content = req.body.editNoteNote;
+                data.tags = req.body.editNoteTags;
+                data.save((err, updatedData) => {
+                  if(err || !data){
+                    //@polish errmess
+                    console.log("ERROR UPDATING DATA");
+                    res.redirect('/profile');
+                  }else{
+                    console.log("UPDATE SUCCESSFUL", updatedData);
+                    res.redirect("/notes/" + updatedData.title);
+                  }
+                })
+              }
+            })
+          });
 
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){

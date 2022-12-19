@@ -1,0 +1,32 @@
+include /universalHeader
+
+doctype html
+head
+  link(rel='stylesheet' type='text/css' href='../public/styles.css')
+body
++universalHeader
+#editContent.content
+  if !data
+    #h1 This note doesn't exist yet
+    a(href="/note") Click here to create it
+  form#editNoteForm(action='/edit/'+ data.title method='post')
+    label(for='editNoteTopic')
+      |Topic:
+      input#editNoteTopic(type='text' name='editNoteTopic' value=data.topic)
+    br
+    label(for='editNoteTitle')
+      |Title:
+      input#editNoteTitle(type='text' name='editNoteTitle' value=data.title)
+    br
+    lable(for='editNoteNote')
+      |note (Parsed with markdown-it)
+      br
+      textarea#editNoteNote(name='editNoteNote')
+        |#{data.content}
+    br
+    label(for='editNoteTags')
+      |Tags (input tags separated by commas)
+      input#editNoteTags(type='text' name='editNoteTags' value=data.tags.join(","))
+    br
+    button(type='submit') Save Changes
+  script(src='./public/textareaFix.js' type="text/javascript")

@@ -7,12 +7,17 @@ body
 +universalHeader
 #noteContent.content
   h1
-    |#{title}
+    |#{data.title}
   h3
-    |Created on: #{createdOn}
+    |Created on: #{data.dateCreated}
+  h3
+    |Updated on: #{data.dateUpdated}
   #noteMainContent
     !=content
+  h2 Tags:
   #noteTags
-    each tag in tags
+    each tag in data.tags
       .noteTag
         |#{tag}
+  a(href='/edit/' + data.title)
+    |Edit Note
