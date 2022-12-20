@@ -57,7 +57,7 @@ a:hover {
   grid-template-columns: 20% 60% 20%;
 }
 
-.headerButton, #noteContent #noteContentHeader #noteContentHeaderRight a {
+.headerButton, #deleteContent #dontDeleteButton, #deleteContent button, #noteContent #noteContentHeader #noteContentHeaderRight a {
   color: black;
   background-color: rgb(235, 235, 235);
   border: solid;
@@ -69,7 +69,7 @@ a:hover {
   justify-content: center;
   text-align: center;
 }
-.headerButton:hover, #noteContent #noteContentHeader #noteContentHeaderRight a:hover {
+.headerButton:hover, #deleteContent #dontDeleteButton:hover, #deleteContent button:hover, #noteContent #noteContentHeader #noteContentHeaderRight a:hover {
   background: gray;
   color: black;
 }
@@ -351,6 +351,37 @@ select {
 }
 #noteContent #noteContentTags #noteTags .noteTag a:hover {
   color: inherit;
+}
+
+#deleteContent #warningText {
+  color: red;
+}
+#deleteContent #deleteData {
+  text-align: center;
+}
+#deleteContent button {
+  height: auto;
+  width: auto;
+  background-color: #7c5050;
+  padding: 1em;
+}
+#deleteContent button:hover {
+  background-color: #543636;
+  cursor: pointer;
+}
+#deleteContent a {
+  text-align: center;
+}
+#deleteContent #dontDeleteButton {
+  height: auto;
+  width: auto;
+  text-decoration: none;
+  background-color: rgb(80, 124, 124);
+  padding: 1em;
+}
+#deleteContent #dontDeleteButton:hover {
+  background-color: rgb(55, 85, 85);
+  cursor: pointer;
 }
 
 .deleteLink {

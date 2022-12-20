@@ -391,6 +391,46 @@ select{
   }
 }
 
+//used in delete
+#deleteContent{
+  #warningText{
+    color:red;
+  }
+
+  #deleteData{
+    text-align: center;
+  }
+
+  button{
+    @extend .headerButton;
+    height:auto;
+    width: auto;
+    background-color: $danger_color;
+    padding:1em;
+    &:hover{
+      background-color: $danger_hover;
+      cursor: pointer;
+    }
+  }
+
+  a{
+    text-align: center;
+  }
+
+  #dontDeleteButton{
+    @extend .headerButton;
+    height:auto;
+    width: auto;
+    text-decoration: none;
+    background-color: $mid-teal;
+    padding:1em;
+    &:hover{
+      background-color: $dark_teal;
+      cursor: pointer;
+    }
+  }
+}
+
 //used in editTopics
 .deleteLink{
   background-color: $off_white;

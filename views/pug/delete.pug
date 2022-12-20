@@ -6,26 +6,28 @@ head
 body
   +universalHeader
   #deleteContent.content
-    h1
+    h2#warningText
       |WARNING!!!
-    h1
+    h2
       |YOU ARE ABOUT TO PERMANENTLY DELETE THE FOLLOWING #{dataType.toUpperCase()}
     if(dataType == "topic")
-      h1
+      h2
         |ALL NOTES UNDER THIS TOPIC WILL ALSO BE DELETED
-    br
     #deleteData
       if(data)
-        h2
+        h1
           |#{data.title}
-          |Topic: #{data.topic}
-          |Created On: #{data.dateCreated}
-          if(data.dateUpdated)
-            |Updated On: #{data.dateUpdated}
+        |Topic: #{data.topic}
+        br
+        |Created On: #{data.dateCreated}
+        br
+        if(data.dateUpdated)
+          |Updated On: #{data.dateUpdated}
 
       else
-        h2
+        h1
           |#{title}
+    br
     #delteOptionButtons
       -var dataTitle = title ? title : data.title
       form#deleteForm(action='/delete/' + dataType + '/' + dataTitle method='post')
@@ -33,5 +35,6 @@ body
           |Permanently Delete #{dataTitle}
       br
       br
-      a#dontDeleteButton(href='/profile')
+    a#dontDeleteButton(href='/profile')
+      h1
         |No! Return to my profile
