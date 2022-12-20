@@ -113,6 +113,31 @@ a:hover {
   color: inherit !important;
 }
 
+#createTopic #createTopicHeader {
+  text-align: center;
+}
+#createTopic #createTopicBody {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
+}
+#createTopic input {
+  background-color: rgb(235, 235, 235);
+}
+#createTopic button {
+  background-color: rgb(80, 124, 124);
+  border: solid black 2px;
+}
+#createTopic button:hover {
+  cursor: pointer;
+  background-color: rgb(55, 85, 85);
+}
+
+#topicContent {
+  margin-top: 5em;
+}
+
 #noteList {
   display: flex;
   flex-direction: row;
@@ -133,6 +158,7 @@ a:hover {
   align-items: center;
   height: 150px;
   width: 375px;
+  box-shadow: 5px 5px rgb(30, 45, 45);
 }
 .noteCard .noteCardTitle {
   display: flex;
@@ -154,6 +180,10 @@ a:hover {
   text-align: center;
   max-height: 50%;
   overflow: hidden;
+}
+
+#noNotesFound {
+  text-align: center;
 }
 
 textarea {

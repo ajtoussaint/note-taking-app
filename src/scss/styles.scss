@@ -125,8 +125,35 @@ a{
   color:inherit !important;
 }
 
+#createTopic{
+  #createTopicHeader{
+    text-align: center;
+  }
+  #createTopicBody{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap:10px;
+  }
+  input{
+    background-color: $off_white;
+  }
+  button{
+    background-color: $mid_teal;
+    border:solid black 2px;
+    &:hover{
+      cursor: pointer;
+      background-color: $dark_teal;
+    }
+  }
+}
+
 //used in the topic page
 $noteCardBorder:solid black;
+
+#topicContent{
+  margin-top: 5em;
+}
 
 #noteList{
   display:flex;
@@ -148,6 +175,7 @@ $noteCardBorder:solid black;
   align-items: center;
   height:150px;
   width:375px;
+  box-shadow: 5px 5px $shadow_teal;
     .noteCardTitle{
       display: flex;
       flex-direction: row;
@@ -171,7 +199,9 @@ $noteCardBorder:solid black;
     }
 }
 
-
+#noNotesFound{
+  text-align: center;
+}
 
 //Used in the create note page
 textarea{

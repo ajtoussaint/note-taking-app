@@ -7,18 +7,48 @@ body
 +universalHeader
 #topicContent.content
   if !notes
-    h1#noNotesFound
-      |No Notes Found for this topic!
+    #noNotesFound
+      h1#noNotesFoundHeader
+        |No Notes Found for this topic!
+        br
+        |Add your first note under #{topic}:
+        br
+        br
+        br
+        a(href='/note' + "?topic=" + topic id="noNoteLink")
+          |Create a Note
       br
-      |Add your first note under #{topic}
-      br
-      a(href='/note' + "?topic=" + topic id="createNoteLink")
-        |Create a Note!
+      a(href='/profile')
+        |Return to list of topics
   else
     h1
       |#{topic}
     a(href='/note' + "?topic=" + topic id="createNoteLink")
       |Create a new note under #{topic}
+    form#filterForm(action='/topic/'+topic method='get')
+      h3
+        |Filters
+      label(for='filterTags')
+        |Tags (enter tags separated by commas):
+        input#filterTags(type='text' name='filterTags')
+      #filterDates
+        label(for='created')
+          |Created
+          input#created(type='radio' name='created-updated' value='created' checked)
+        label(for='updated')
+          |Updated
+          input#updated(type='radio' name='created-updated' value='updated')
+        label(for='filterEarlyDate')
+          |Earliest Date:
+          input#filterEarlyDate(type='date' name='filterEarlyDate')
+        label(for='filterLateDate')
+          |Latest Date:
+          input#filterLateDate(type='date' name='filterLateDate')
+      label(for='filterTitle')
+        |Title (exact match only):
+        input#filterTitle(type='text' name='filterTitle')
+      input(type='hidden' name='filters' value='true')
+      button(type='submit') Apply
     br
     #noteList
       each note in notes
@@ -35,3 +65,7 @@ body
               |Tags: #{note.tags[0]}, #{note.tags[1]}, #{note.tags[2]}...
             else
               |Tags: #{note.tags.join(",")}
+    br
+    br
+    a(href='/profile')
+      |Return to list of topics

@@ -7,7 +7,7 @@ body
   +universalHeader
   #profileContent.content
     h2
-      |Welcome #{user}
+      |Welcome, #{user}
     #topicContainer
       if !topicList
         h1#noTopicsFound
@@ -22,10 +22,13 @@ body
                 |#{topic} (#{topicData[topic]})
     #createTopic
       form#newTopicForm(action='/topic' method="post")
-        label(for='topic')
-          |New Topic Name:
-          input#topicInput(type="text" name="topic")
-        button(type="submit") Create New Topic
+        h3#createTopicHeader
+          |Create a New Topic
+        #createTopicBody
+          label(for='topic')
+            |New Topic Name:
+            input#topicInput(type="text" name="topic")
+          button(type="submit") Create
     br
     a(href='/editTopics')
       |Edit Topics

@@ -130,6 +130,9 @@ module.exports = function (app, User){
     app.route('/topic/:topicName')
       .get(ensureAuthenticated, (req, res, next) => {
         let topicName = req.params.topicName
+        if(req.query.filters){
+          console.log("FILTERS ACTIVE");
+        }
         console.log("GETTING NOTES FOR TOPIC: " + topicName);
         //@feat filter
         Note.find({ownerName:req.user.username, topic:topicName}, function(err, data){
@@ -139,9 +142,28 @@ module.exports = function (app, User){
             console.log("NO NOTES Found");
             res.render('pug/topic',{topic:topicName});
           }else{
-            console.log("found notes: ",  data)
-            //@feat more detailed notes display
-            res.render('pug/topic',{topic:topicName,notes:data});
+            let filteredData = [...data];
+            if(req.query.filters){
+              console.log("FILTERS ACTIVE");
+              if(req.query.filterTags){
+                filterTags = req.query.filterTags.split(",");
+                filteredData = filteredData.filter(note => {
+                  let result = true;
+                  filterTags.forEach(tag => {
+                    if(note.tags.indexOf(tag) < 0){
+                      console.log(note.title + " is missing tag " + tag);
+                      result = false;
+                    }
+                  });
+                  //console.log(note.title + " has queried all tags: " + filterTags);
+                  return result;
+                });
+              }//end tag filter block
+              if(req.query.filterEarlyDate){
+                console.log("date")
+              }
+            }//end filter block
+            res.render('pug/topic',{topic:topicName,notes:filteredData});
           }
         })
       });
