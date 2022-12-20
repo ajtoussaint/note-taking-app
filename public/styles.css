@@ -184,13 +184,11 @@ a:hover {
 }
 
 #noteList {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20px;
-  max-width: 90vw;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 375px);
+  grid-gap: 20px;
+  width: 90vw;
+  justify-content: center;
 }
 
 .noteCard {
