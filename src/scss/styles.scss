@@ -1,6 +1,7 @@
 $mid_teal: rgb(80,124,124);
 $dark_gray: rgb(100,100,100);
 $back_gray: rgb(56,56,56);
+$off_back_gray:rgb(64,64,64);
 $shadow_teal: rgb(30,45,45);
 $dark_teal:rgb(55,85,85);
 $off_white:rgb(235,235,235);
@@ -248,10 +249,130 @@ $noteCardBorder:solid black;
 }
 
 //Used in the create note page
+#createNoteContent{
+  #createNoteForm{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width:70vw;
+  }
+
+  h3{
+    display: inline;
+  }
+
+  button{
+    background-color: $mid_teal;
+    border:solid black 2px;
+    font-family: monospace;
+    padding: 0.5em;
+    h2{
+      display: inline;
+    }
+    &:hover{
+      cursor: pointer;
+      background-color: $dark_teal;
+    }
+  }
+
+}
+
 textarea{
-  width:70vw;
-  height:70vh;
+  width:100%;
+  height:50vh;
   tab-size: 2;
+  background-color: $off_white;
+}
+input{
+  background-color: $off_white;
+  font-family: monospace;
+}
+select{
+  background-color: $off_white;
+  font-family: monospace;
+}
+
+//used in the note page
+#noteContentWrapper{
+  //wraps everything
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#noteContent{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7em;
+  h1{
+    display: inline;
+    margin:0;
+  }
+  h3{
+    display: inline;
+    margin:0;
+  }
+
+  #noteContentHeader{
+    background-color: $mid-teal;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 1.5em 0.5em 1.5em;
+    width:90vw;
+    color:black;
+    #noteContentHeaderLeft{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    #noteContentHeaderRight{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      a{
+        @extend .headerButton;
+        padding:0.5em;
+      }
+    }
+  }
+
+  #noteMainContent{
+    width:90vw;
+    background-color: $off_back_gray;
+    padding: 0.5em 1.5em 0.5em 1.5em;
+    margin:7px 0;
+  }
+
+  #noteContentTags{
+    background-color: $mid-teal;
+    display: flex;
+    padding: 0.5em 2.5em 0.5em 0.5em;
+    width:90vw;
+    color:black;
+    h3{
+      margin-right: 20px;
+    }
+    #noteTags{
+      display:flex;
+      gap:5px;
+      flex-wrap: wrap;
+      .noteTag{
+        background-color: gray;
+        border:solid black 1px;
+        padding:0.5em 1em 0.5em 1em;
+        border-radius: 5px;
+        a{
+          text-decoration: none;
+          color:black;
+          &:hover{
+            color:inherit;
+          }
+        }
+      }
+    }
+  }
 }
 
 //used in editTopics

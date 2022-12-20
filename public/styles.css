@@ -57,7 +57,7 @@ a:hover {
   grid-template-columns: 20% 60% 20%;
 }
 
-.headerButton {
+.headerButton, #noteContent #noteContentHeader #noteContentHeaderRight a {
   color: black;
   background-color: rgb(235, 235, 235);
   border: solid;
@@ -69,7 +69,7 @@ a:hover {
   justify-content: center;
   text-align: center;
 }
-.headerButton:hover {
+.headerButton:hover, #noteContent #noteContentHeader #noteContentHeaderRight a:hover {
   background: gray;
   color: black;
 }
@@ -229,10 +229,121 @@ a:hover {
   text-align: center;
 }
 
-textarea {
+#createNoteContent #createNoteForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   width: 70vw;
-  height: 70vh;
+}
+#createNoteContent h3 {
+  display: inline;
+}
+#createNoteContent button {
+  background-color: rgb(80, 124, 124);
+  border: solid black 2px;
+  font-family: monospace;
+  padding: 0.5em;
+}
+#createNoteContent button h2 {
+  display: inline;
+}
+#createNoteContent button:hover {
+  cursor: pointer;
+  background-color: rgb(55, 85, 85);
+}
+
+textarea {
+  width: 100%;
+  height: 50vh;
   tab-size: 2;
+  background-color: rgb(235, 235, 235);
+}
+
+input {
+  background-color: rgb(235, 235, 235);
+  font-family: monospace;
+}
+
+select {
+  background-color: rgb(235, 235, 235);
+  font-family: monospace;
+}
+
+#noteContentWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#noteContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7em;
+}
+#noteContent h1 {
+  display: inline;
+  margin: 0;
+}
+#noteContent h3 {
+  display: inline;
+  margin: 0;
+}
+#noteContent #noteContentHeader {
+  background-color: rgb(80, 124, 124);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em 1.5em 0.5em 1.5em;
+  width: 90vw;
+  color: black;
+}
+#noteContent #noteContentHeader #noteContentHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+#noteContent #noteContentHeader #noteContentHeaderRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#noteContent #noteContentHeader #noteContentHeaderRight a {
+  padding: 0.5em;
+}
+#noteContent #noteMainContent {
+  width: 90vw;
+  background-color: rgb(64, 64, 64);
+  padding: 0.5em 1.5em 0.5em 1.5em;
+  margin: 7px 0;
+}
+#noteContent #noteContentTags {
+  background-color: rgb(80, 124, 124);
+  display: flex;
+  padding: 0.5em 2.5em 0.5em 0.5em;
+  width: 90vw;
+  color: black;
+}
+#noteContent #noteContentTags h3 {
+  margin-right: 20px;
+}
+#noteContent #noteContentTags #noteTags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+#noteContent #noteContentTags #noteTags .noteTag {
+  background-color: gray;
+  border: solid black 1px;
+  padding: 0.5em 1em 0.5em 1em;
+  border-radius: 5px;
+}
+#noteContent #noteContentTags #noteTags .noteTag a {
+  text-decoration: none;
+  color: black;
+}
+#noteContent #noteContentTags #noteTags .noteTag a:hover {
+  color: inherit;
 }
 
 .deleteLink {

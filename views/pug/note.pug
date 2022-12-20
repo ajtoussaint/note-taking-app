@@ -5,20 +5,32 @@ head
   link(rel='stylesheet' type='text/css' href='../public/styles.css')
 body
 +universalHeader
-#noteContent.content
-  h1
-    |#{data.title}
-  h3
-    |Created on: #{data.dateCreated}
-  h3
-    |Updated on: #{data.dateUpdated}
-  #noteMainContent
-    !=content
-  h2 Tags:
-  #noteTags
-    each tag in data.tags
-      .noteTag
-        |#{tag}
-  br
-  a(href='/edit/' + data.title)
-    |Edit Note
+
+#noteContentWrapper
+  #noteContent.content
+    h3
+      a(href='/topic/' + data.topic)
+        |Return to #{data.topic}
+    br
+    #noteContentHeader
+      #noteContentHeaderLeft
+        h1
+          |#{data.title}
+        h3
+          |Created on: #{data.dateCreated}
+        h3
+          |Updated on: #{data.dateUpdated}
+      #noteContentHeaderRight
+        h3
+          a(href='/edit/' + data.title)
+            |Edit Note
+    #noteMainContent
+      !=content
+    #noteContentTags
+      h3 Tags:
+      #noteTags
+        each tag in data.tags
+          .noteTag
+            a(href="/topic/" + data.topic + "?filterTags=" + tag + "&filters=true")
+              |#{tag}
+    br

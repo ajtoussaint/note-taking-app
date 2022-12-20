@@ -8,7 +8,8 @@ body
 #createNoteContent.content
   form#createNoteForm(action='/note' method='post')
     label(for='createNoteTopic')
-      |Topic:
+      h3
+        |Topic:
       select#createNoteTopic(name='createNoteTopic')
         for topic in topicList
           if (topic === defaultTopic)
@@ -19,17 +20,26 @@ body
               |#{topic}
     br
     label(for='createNoteTitle')
-      |Title:
+      h3
+        |Title:
       input#createNoteTitle(type='text' name='createNoteTitle')
     br
-    lable(for='createNoteNote')
-      |note (Parsed with markdown-it)
+    lable(for='createNoteNote' id='createNoteContent')
+      h3
+        |note (Parsed with markdown-it)
       br
       textarea#createNoteNote(name='createNoteNote')
     br
     label(for='createNoteTags')
-      |Tags (input tags separated by commas)
+      h3
+        |Tags (input tags separated by commas)
       input#createNoteTags(type='text' name='createNoteTags')
     br
-    button(type='submit') Submit
+    button(type='submit')
+      h2
+        |Submit
+  br
+  -var returnRoute= (defaultTopic ? '/topic/' + defaultTopic : '/profile')
+  a(href=returnRoute)
+    |Return to #{defaultTopic} Notes
   script(src='./public/textareaFix.js' type="text/javascript")
