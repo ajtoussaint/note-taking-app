@@ -25,6 +25,7 @@ body
       |#{topic}
     a(href='/note' + "?topic=" + topic id="createNoteLink")
       |Create a new note under #{topic}
+    br
     form#filterForm(action='/topic/'+topic method='get')
       h3
         |Filters
@@ -32,12 +33,13 @@ body
         |Tags (enter tags separated by commas):
         input#filterTags(type='text' name='filterTags')
       #filterDates
-        label(for='created')
-          input#created(type='radio' name='dateType' value='dateCreated' checked)
-          |Created
-        label(for='updated')
-          input#updated(type='radio' name='dateType' value='dateUpdated')
-          |Updated
+        #filterDatesDateType
+          label(for='created')
+            input#created(type='radio' name='dateType' value='dateCreated' checked)
+            |Date Created
+          label(for='updated')
+            input#updated(type='radio' name='dateType' value='dateUpdated')
+            |Date Updated
         label(for='filterEarlyDate')
           |Earliest Date:
           input#filterEarlyDate(type='date' name='filterEarlyDate')
@@ -49,6 +51,8 @@ body
         input#filterTitle(type='text' name='filterTitle')
       input(type='hidden' name='filters' value='true')
       button(type='submit') Apply
+      a(href='/topic/'+topic id='clearFilters')
+        |Clear
     br
     #noteList
       each note in notes

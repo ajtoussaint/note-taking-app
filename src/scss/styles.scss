@@ -155,14 +155,60 @@ $noteCardBorder:solid black;
   margin-top: 5em;
 }
 
+#filterForm{
+  display:flex;
+  flex-direction: column;
+  background-color: $mid-teal;
+  color:black;
+  border: solid black;
+  box-shadow: $shadow_teal 5px 5px;
+  padding: 0.5em;
+  gap:1em;
+  //width:70%;
+  input{
+    background-color: $off_white;
+  }
+  button{
+    background-color: $dark_teal;
+    border:solid black 2px;
+    color:white;
+    width:30%;
+    padding: 0.2em 0 0.2em 0;
+    align-self: center;
+    &:hover{
+      cursor: pointer;
+      background-color: $shadow_teal;
+    }
+  }
+  a{
+    background-color: $dark_teal;
+    border:solid black 2px;
+    color:white;
+    align-self: center;
+    text-align: center;
+    text-decoration: none;
+    width: 30%;
+    padding: 0.2em 0 0.2em 0;
+    &:hover{
+      cursor: pointer;
+      background-color: $shadow_teal;
+    }
+  }
+  #filterDates{
+    display:flex;
+    flex-direction: column;
+    gap:0.5em;
+  }
+}
+
 #noteList{
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap:20px;
-  max-width: 70vw;
+  max-width: 90vw;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .noteCard{
