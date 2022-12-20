@@ -24,9 +24,7 @@ body
       each note in notes
         a(href='/notes/'+ note.title class="noteCard")
           .noteCardTitle
-            .noteCardTitleBackground
-              |#{note.title}
-            .noteCardTitleVoid
+            |#{note.title}
           .noteCardInfo
             |Created On: #{note.dateCreated}
             br

@@ -124,41 +124,36 @@ a:hover {
 }
 
 .noteCard {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: auto;
   background-color: rgb(80, 124, 124);
   text-decoration: none;
-  border-bottom: solid black;
-  border-left: solid black;
-  margin-bottom: 20px;
+  border: solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 375px;
 }
 .noteCard .noteCardTitle {
   display: flex;
   flex-direction: row;
-}
-.noteCard .noteCardTitle .noteCardTitleBackground {
   background-color: rgb(55, 85, 85);
-  border-top: solid black;
-  border-right: solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: solid black;
+  margin: 1em;
+  max-width: 70%;
+  max-height: 50%;
+  text-align: center;
   padding: 0.5em 1em 0.5em 1em;
-}
-.noteCard .noteCardTitle .noteCardTitleVoid {
-  background-color: rgb(56, 56, 56);
-  width: 100%;
-  border-top: rgb(56, 56, 56);
-  border-right: rgb(56, 56, 56);
+  display: inline-block;
+  overflow-wrap: break-word;
+  overflow: hidden;
 }
 .noteCard .noteCardInfo {
-  border-right: solid black;
-  border-top: solid black;
-  padding: 1em 0 1em 1em;
   color: black;
-  min-height: 200px;
-  min-width: 500px;
+  padding: 0 1em 1em 1em;
+  text-align: center;
+  max-height: 50%;
+  overflow: hidden;
 }
 
 textarea {
