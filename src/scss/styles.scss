@@ -5,6 +5,8 @@ $off_back_gray:rgb(64,64,64);
 $shadow_teal: rgb(30,45,45);
 $dark_teal:rgb(55,85,85);
 $off_white:rgb(235,235,235);
+$danger_color:#7c5050;
+$danger_hover:#543636;
 
 html {
   background-color: $back_gray;
@@ -292,6 +294,20 @@ select{
   font-family: monospace;
 }
 
+//used in the edit note page
+#editContent{
+  @extend #createNoteContent;
+  #editNoteForm{
+    @extend #createNoteForm;
+  }
+  #deleteNoteButton{
+    background-color: $danger_color;
+    &:hover{
+      background-color: $danger_hover;
+    }
+  }
+}
+
 //used in the note page
 #noteContentWrapper{
   //wraps everything
@@ -379,7 +395,7 @@ select{
 .deleteLink{
   background-color: $off_white;
   &:hover{
-    color:red;
+    color:#7c5050;
   }
 }
 

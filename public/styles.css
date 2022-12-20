@@ -229,25 +229,25 @@ a:hover {
   text-align: center;
 }
 
-#createNoteContent #createNoteForm {
+#createNoteContent #createNoteForm, #editContent #createNoteForm, #editContent #editNoteForm {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   width: 70vw;
 }
-#createNoteContent h3 {
+#createNoteContent h3, #editContent h3 {
   display: inline;
 }
-#createNoteContent button {
+#createNoteContent button, #editContent button {
   background-color: rgb(80, 124, 124);
   border: solid black 2px;
   font-family: monospace;
   padding: 0.5em;
 }
-#createNoteContent button h2 {
+#createNoteContent button h2, #editContent button h2 {
   display: inline;
 }
-#createNoteContent button:hover {
+#createNoteContent button:hover, #editContent button:hover {
   cursor: pointer;
   background-color: rgb(55, 85, 85);
 }
@@ -267,6 +267,13 @@ input {
 select {
   background-color: rgb(235, 235, 235);
   font-family: monospace;
+}
+
+#editContent #deleteNoteButton {
+  background-color: #7c5050;
+}
+#editContent #deleteNoteButton:hover {
+  background-color: #543636;
 }
 
 #noteContentWrapper {
@@ -350,7 +357,7 @@ select {
   background-color: rgb(235, 235, 235);
 }
 .deleteLink:hover {
-  color: red;
+  color: #7c5050;
 }
 
 .topicRow {

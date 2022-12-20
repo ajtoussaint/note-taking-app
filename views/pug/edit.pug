@@ -11,32 +11,40 @@ body
     a(href="/note") Click here to create it
   form#editNoteForm(action='/edit/'+ data.title method='post')
     label(for='editNoteTopic')
-      |Topic:
-      select#editNoteTopic(name='editNoteTopic')
-        for topic in topicList
-          if (topic === defaultTopic)
-            option(value=topic selected)
-              |#{topic}
-          else
-            option(value=topic)
-              |#{topic}
+      h3
+        |Topic:
+        select#editNoteTopic(name='editNoteTopic')
+          for topic in topicList
+            if (topic === defaultTopic)
+              option(value=topic selected)
+                |#{topic}
+            else
+              option(value=topic)
+                |#{topic}
     br
     label(for='editNoteTitle')
-      |Title:
-      input#editNoteTitle(type='text' name='editNoteTitle' value=data.title)
+      h3
+        |Title:
+        input#editNoteTitle(type='text' name='editNoteTitle' value=data.title)
     br
     lable(for='editNoteNote')
-      |note (Parsed with markdown-it)
+      h3
+        |note (Parsed with markdown-it)
       br
       textarea#editNoteNote(name='editNoteNote')
         |#{data.content}
     br
     label(for='editNoteTags')
-      |Tags (input tags separated by commas)
+      h3
+        |Tags (input tags separated by commas)
       input#editNoteTags(type='text' name='editNoteTags' value=data.tags.join(","))
     br
-    button(type='submit') Save Changes
+    button(type='submit')
+      h2
+        |Save Changes
   br
   form#deleteNoteForm(action='/delete/note/'+data.title method='get')
-    button(type='submit' id="deleteNoteButton") Delete Note
+    button(type='submit' id="deleteNoteButton")
+      h3
+        |Delete Note
   script(src='./public/textareaFix.js' type="text/javascript")
