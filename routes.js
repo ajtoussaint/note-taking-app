@@ -189,7 +189,7 @@ module.exports = function (app, User){
                 filteredData = filteredData.filter(note => note.title == req.query.filterTitle);
               }//end title filter
             }//end filter block
-            res.render('pug/topic',{topic:topicName,notes:filteredData});
+            res.render('pug/topic',{topic:topicName,notes:filteredData,filters:req.query});
           }
         })
       });

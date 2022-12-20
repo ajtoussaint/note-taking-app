@@ -30,25 +30,32 @@ body
       h3
         |Filters
       label(for='filterTags')
+        -var tagDefault =(filters ? filters.filterTags : null)
         |Tags (enter tags separated by commas):
-        input#filterTags(type='text' name='filterTags')
+        input#filterTags(type='text' name='filterTags' value=tagDefault)
       #filterDates
         #filterDatesDateType
+          -var dateTypeDefault=(filters ? filters.dateType : null)
+          -var createdDefault=(dateTypeDefault ? dateTypeDefault === 'dateCreated' : true)
+          -var updatedDefault=(dateTypeDefault ? dateTypeDefault === 'dateUpdated' : false)
           label(for='created')
-            input#created(type='radio' name='dateType' value='dateCreated' checked)
+            input#created(type='radio' name='dateType' value='dateCreated' checked=createdDefault)
             |Date Created
           label(for='updated')
-            input#updated(type='radio' name='dateType' value='dateUpdated')
+            input#updated(type='radio' name='dateType' value='dateUpdated' checked=updatedDefault)
             |Date Updated
         label(for='filterEarlyDate')
+          -var earlyDateDefault=(filters ? filters.filterEarlyDate : null)
           |Earliest Date:
-          input#filterEarlyDate(type='date' name='filterEarlyDate')
+          input#filterEarlyDate(type='date' name='filterEarlyDate' value=earlyDateDefault)
         label(for='filterLateDate')
+          -var lateDateDefault=(filters ? filters.filterLateDate : null)
           |Latest Date:
-          input#filterLateDate(type='date' name='filterLateDate')
+          input#filterLateDate(type='date' name='filterLateDate' value=lateDateDefault)
       label(for='filterTitle')
-        |Title (exact match only):
-        input#filterTitle(type='text' name='filterTitle')
+        -var titleDefault = (filters ? filters.filterTitle : null)
+        |Title (exact match):
+        input#filterTitle(type='text' name='filterTitle' value=titleDefault)
       input(type='hidden' name='filters' value='true')
       button(type='submit') Apply
       a(href='/topic/'+topic id='clearFilters')
