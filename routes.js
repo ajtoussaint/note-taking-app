@@ -147,6 +147,10 @@ module.exports = function (app, User){
               console.log("FILTERS ACTIVE");
               if(req.query.filterTags){
                 filterTags = req.query.filterTags.split(",");
+                //trim whitespace from tags
+                filterTags.forEach((tag, i) =>{
+                  filterTags[i]=tag.trim();
+                });
                 filteredData = filteredData.filter(note => {
                   let result = true;
                   filterTags.forEach(tag => {
@@ -240,6 +244,10 @@ module.exports = function (app, User){
           let tagArray = req.body.createNoteTags ?
            req.body.createNoteTags.split(","):
            [];
+           //trim whitespace from tags
+           tagArray.forEach((tag, i) =>{
+             tagArray[i]=tag.trim();
+           });
           //don't create two notes of same title in same topic
           Note.findOne({title:req.body.createNoteTitle, ownerName:req.user.username}, function(err,data){
             if(err){
@@ -327,6 +335,10 @@ module.exports = function (app, User){
             let tagArray = req.body.editNoteTags ?
              req.body.editNoteTags.split(","):
              [];
+            //trim whitespace from tags
+            tagArray.forEach((tag, i) =>{
+              tagArray[i]=tag.trim();
+            });
             console.log("UPDATING NOTE: " + noteTitle);
             Note.findOne({title:noteTitle, ownerName: req.user.username}, function(err,data){
               if(err){
