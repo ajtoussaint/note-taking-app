@@ -9,7 +9,7 @@ body
 #noteContentWrapper
   #noteContent.content
     h3
-      a(href='/topic/' + data.topic)
+      a#noteReturnLink(href='/topic/' + data.topic)
         |Return to #{data.topic}
     br
     #noteContentHeader

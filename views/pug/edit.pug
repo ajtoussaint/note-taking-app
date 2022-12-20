@@ -47,4 +47,7 @@ body
     button(type='submit' id="deleteNoteButton")
       h3
         |Delete Note
+  br
+  a(href='/notes/'+ data.title)
+    |Return to #{data.title}
   script(src='./public/textareaFix.js' type="text/javascript")

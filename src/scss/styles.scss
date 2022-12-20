@@ -469,3 +469,167 @@ select{
     max-width:70%;
   }
 }
+//everything but for mobile
+@media only screen and (max-device-width: 480px){
+  .content{
+    margin-top:20vh;
+    font-size: 50px;
+    margin-bottom:5vh;
+  }
+
+  .header{
+    background: $mid_teal;
+    text-align: center;
+    width:100vw;
+    height:15vh;
+    font-size:2em;
+    align-items: center;
+  }
+
+  .headerButton{
+    height:50%;
+    width:5em;
+    padding:1em 0.5em 1em 0.5em;
+  }
+
+
+  .headerSide{
+    display: flex;
+    flex-direction: column;
+    gap:50px;
+    justify-content: center;
+    align-items: center;
+    margin:0 2em;
+  }
+
+  input{
+    background-color:$off_white;
+    height:50px;
+    width:500px;
+    font-size:50px;
+  }
+
+  select{
+    font-size: 50px;
+  }
+
+  button{
+    font-size: 50px;
+  }
+
+
+  .indexBox {
+    width:90vw;
+    font-size: 50px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    form{
+      display:flex;
+      flex-direction: column;
+      align-items:flex-start;
+      gap:0.1em;
+      input{
+        background-color:$off_white;
+        height:50px;
+        width:500px;
+      }
+
+      button{
+        align-self:center;
+        font-size: 50px;
+        width:250px;
+        height: 100px;
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+
+  #profileContent{
+    button{
+      font-size: 50px;
+    }
+
+    #createTopicBody{
+      margin:0 50px;
+    }
+  }
+
+  #topicContent{
+    margin-top: 20vh;
+    margin-bottom: 5vh;
+  }
+
+  #filterForm{
+    button{
+      font-size:50px;
+    }
+  }
+
+  #noteList{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, 375px);
+    grid-gap: 50px;
+    width:90vw;
+    justify-content: center;
+  }
+
+  .noteCard{
+    height:700px;
+    width:375px;
+    justify-content: space-around;
+      .noteCardTitle{
+        margin: 1em;
+        max-width: 70%;
+        max-height: 30%;
+        text-align: center;
+        padding: 0.5em 1em 0.5em 1em;
+        font-size:40px;
+      }
+      .noteCardInfo{
+        padding:0 1em 1em 1em;
+        max-height:50%;
+        font-size:35px;
+      }
+  }
+
+  #noteReturnLink{
+    font-size: 35px;
+  }
+
+  #noteMainContent{
+    font-size:35px;
+  }
+
+  .topicRow{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width:90vw;
+    background-color: $off_back_gray;
+    padding: 0.5em;
+    h2{
+      max-width:50%;
+    }
+  }
+  #deleteContent{
+    #dontDeleteButton{
+      width:90vw;
+    }
+
+    #deleteButton{
+      width:70vw;
+    }
+  }
+
+  #deleteForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #page404{
+    font-size: 100px;
+  }
+
+}

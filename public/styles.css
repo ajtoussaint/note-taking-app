@@ -421,3 +421,138 @@ select {
 .topicRow h2 {
   max-width: 70%;
 }
+
+@media only screen and (max-device-width: 480px) {
+  .content {
+    margin-top: 20vh;
+    font-size: 50px;
+    margin-bottom: 5vh;
+  }
+  .header {
+    background: rgb(80, 124, 124);
+    text-align: center;
+    width: 100vw;
+    height: 15vh;
+    font-size: 2em;
+    align-items: center;
+  }
+  .headerButton, #noteContent #noteContentHeader #noteContentHeaderRight a, #deleteContent button, #deleteContent #dontDeleteButton, .deleteLink {
+    height: 50%;
+    width: 5em;
+    padding: 1em 0.5em 1em 0.5em;
+  }
+  .headerSide {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 2em;
+  }
+  input {
+    background-color: rgb(235, 235, 235);
+    height: 50px;
+    width: 500px;
+    font-size: 50px;
+  }
+  select {
+    font-size: 50px;
+  }
+  button {
+    font-size: 50px;
+  }
+  .indexBox {
+    width: 90vw;
+    font-size: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .indexBox form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1em;
+  }
+  .indexBox form input {
+    background-color: rgb(235, 235, 235);
+    height: 50px;
+    width: 500px;
+  }
+  .indexBox form button {
+    align-self: center;
+    font-size: 50px;
+    width: 250px;
+    height: 100px;
+    margin-bottom: 0.5em;
+  }
+  #profileContent button {
+    font-size: 50px;
+  }
+  #profileContent #createTopicBody {
+    margin: 0 50px;
+  }
+  #topicContent {
+    margin-top: 20vh;
+    margin-bottom: 5vh;
+  }
+  #filterForm button {
+    font-size: 50px;
+  }
+  #noteList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 375px);
+    grid-gap: 50px;
+    width: 90vw;
+    justify-content: center;
+  }
+  .noteCard {
+    height: 700px;
+    width: 375px;
+    justify-content: space-around;
+  }
+  .noteCard .noteCardTitle {
+    margin: 1em;
+    max-width: 70%;
+    max-height: 30%;
+    text-align: center;
+    padding: 0.5em 1em 0.5em 1em;
+    font-size: 40px;
+  }
+  .noteCard .noteCardInfo {
+    padding: 0 1em 1em 1em;
+    max-height: 50%;
+    font-size: 35px;
+  }
+  #noteReturnLink {
+    font-size: 35px;
+  }
+  #noteMainContent {
+    font-size: 35px;
+  }
+  .topicRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90vw;
+    background-color: rgb(64, 64, 64);
+    padding: 0.5em;
+  }
+  .topicRow h2 {
+    max-width: 50%;
+  }
+  #deleteContent #dontDeleteButton {
+    width: 90vw;
+  }
+  #deleteContent #deleteButton {
+    width: 70vw;
+  }
+  #deleteForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #page404 {
+    font-size: 100px;
+  }
+}

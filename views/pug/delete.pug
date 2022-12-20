@@ -29,12 +29,12 @@ body
           |#{title}
     br
     #delteOptionButtons
+      a#dontDeleteButton(href='/profile')
+        h1
+          |No! Return to my profile
+      br
+      br
       -var dataTitle = title ? title : data.title
       form#deleteForm(action='/delete/' + dataType + '/' + dataTitle method='post')
         button#deleteButton(type='submit')
-          |Permanently Delete #{dataTitle}
-      br
-      br
-    a#dontDeleteButton(href='/profile')
-      h1
-        |No! Return to my profile
+          |Permanently Delete "#{dataTitle}"
