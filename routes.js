@@ -344,7 +344,7 @@ module.exports = function (app, User){
                 data.save((err, updatedData) => {
                   if(err || !data){
                     //@polish errmess
-                    console.log("ERROR UPDATING DATA");
+                    console.log("ERROR UPDATING DATA: ", err, data);
                     res.redirect('/profile');
                   }else{
                     console.log("UPDATE SUCCESSFUL", updatedData);
