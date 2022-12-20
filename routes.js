@@ -232,7 +232,20 @@ module.exports = function (app, User){
                 console.log("NO NOTE FOUND");
                 res.redirect('back');
               }else{
-                res.render('pug/edit', {data:data});
+                TopicList.findOne({username:req.user.username}, function(err,topicData){
+                  if(err){
+                    //@polish errmess
+                    console.log(err);
+                  }else if(!data){
+                    //@polish errmess
+                    console.log("NO TL FOUND");
+                    res.redirect('back');
+                  }else{
+                    console.log("EDITING NOTE");
+                    res.render('pug/edit', {data:data, topicList:topicData.topicList});
+                  }
+                })
+
               }
             });
           }

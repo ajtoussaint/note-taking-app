@@ -12,6 +12,16 @@ body
   form#editNoteForm(action='/edit/'+ data.title method='post')
     label(for='editNoteTopic')
       |Topic:
+      select#editNoteTopic(name='editNoteTopic')
+        for topic in topicList
+          if (topic === defaultTopic)
+            option(value=topic selected)
+              |#{topic}
+          else
+            option(value=topic)
+              |#{topic}
+    label(for='editNoteTopic')
+      |Topic:
       input#editNoteTopic(type='text' name='editNoteTopic' value=data.topic)
     br
     label(for='editNoteTitle')
@@ -29,4 +39,7 @@ body
       input#editNoteTags(type='text' name='editNoteTags' value=data.tags.join(","))
     br
     button(type='submit') Save Changes
+  br
+  form#deleteNoteForm(action='/delete/note/'+data.title method='get')
+    button(type='submit' id="deleteNoteButton") Delete Note
   script(src='./public/textareaFix.js' type="text/javascript")
