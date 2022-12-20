@@ -1,4 +1,7 @@
-  let textArea = document.getElementById('createNoteNote')
+  let textArea = document.getElementById('createNoteNote');
+  if(!textArea){
+    textArea = document.getElementById('editNoteNote');
+  }
 
   textArea.addEventListener('keydown', (e) => {
     //when tab key is pressed in the

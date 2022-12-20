@@ -29,9 +29,12 @@ body
     br
     lable(for='editNoteNote')
       h3
-        |note (Parsed with markdown-it)
+        |note (Parsed with
+        a(href='/markdown')
+          |markdown-it
+        |)
       br
-      textarea#editNoteNote(name='editNoteNote')
+      textarea#editNoteNote.createNoteTextarea(name='editNoteNote')
         |#{data.content}
     br
     label(for='editNoteTags')

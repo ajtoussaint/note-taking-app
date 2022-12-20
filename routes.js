@@ -456,6 +456,11 @@ module.exports = function (app, User){
           }
         });
 
+    app.route('/markdown')
+      .get((req, res) => {
+        res.render('pug/markdown',{referrer:req.get("Referrer")});
+      });
+
     function ensureAuthenticated(req,res,next) {
       if(req.isAuthenticated()){
         return next();
