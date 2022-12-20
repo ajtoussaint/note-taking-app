@@ -211,28 +211,33 @@ module.exports = function (app, User){
     //use post to create a new topic
     app.route('/topic')
       .post(ensureAuthenticated, (req, res, next) => {
-        console.log("CREATING NEW TOPIC " + req.body.topic + " FOR " + req.user.username);
-        //add new topic to the users topic list
-        TopicList.findOne({username:req.user.username}, function(err, data){
-          if(err){
-            errorRedirect(err, res, "Error Finding Topic List","/profile");
-          }else{
-            //prevent the same topic from being made twice
-            if(data.topicList.indexOf(req.body.topic) < 0){
-              data.topicList.push(req.body.topic);
+        //topic must not be an empty string
+        if(req.body.topic.length < 1){
+          errorRedirect("Error", res, "Topic name must include text","/profile");
+        }else{
+          console.log("CREATING NEW TOPIC " + req.body.topic + " FOR " + req.user.username);
+          //add new topic to the users topic list
+          TopicList.findOne({username:req.user.username}, function(err, data){
+            if(err){
+              errorRedirect(err, res, "Error Finding Topic List","/profile");
             }else{
-              errorRedirect("Error", res, "Topic Already Exists","/profile");
-            }
-            data.save( (err,data) => {
-              if(err){
-                errorRedirect(err, res, "Error Saving Topic List on Update","/profile");
+              //prevent the same topic from being made twice
+              if(data.topicList.indexOf(req.body.topic) < 0){
+                data.topicList.push(req.body.topic);
               }else{
-                console.log("return to profile")
-                res.redirect("back");
+                errorRedirect("Error", res, "Topic Already Exists","/profile");
               }
-            })
-          }
-        })
+              data.save( (err,data) => {
+                if(err){
+                  errorRedirect(err, res, "Error Saving Topic List on Update","/profile");
+                }else{
+                  console.log("return to profile")
+                  res.redirect("back");
+                }
+              })
+            }
+          })
+        }
       });
 
       //route to create a brand new note

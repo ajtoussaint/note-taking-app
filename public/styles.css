@@ -328,6 +328,10 @@ select {
   padding: 0.5em 1.5em 0.5em 1.5em;
   margin: 7px 0;
 }
+#noteContent #noteMainContent img {
+  width: 100%;
+  height: auto;
+}
 #noteContent #noteContentTags {
   background-color: rgb(80, 124, 124);
   display: flex;

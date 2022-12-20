@@ -7,12 +7,13 @@ body
 +universalHeader
 #topicContent.content
   if !notes
+    br
+    br
     #noNotesFound
       h1#noNotesFoundHeader
         |No Notes Found for this topic!
         br
         |Add your first note under #{topic}:
-        br
         br
         br
         a(href='/note' + "?topic=" + topic id="noNoteLink")

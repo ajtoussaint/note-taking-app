@@ -42,11 +42,11 @@ head
       label(for='password')
         | Password:
         br
-        input#regPassword(type='password' name='password')
+        input#regPassword(type='password' name='password' minlength='8')
       br
       label(for='password')
         | Retype Password:
         br
-        input#regConfirmPassword(type='password' name='confirmPassword')
+        input#regConfirmPassword(type='password' name='confirmPassword' minlength='8')
       br
       button(type='submit') Register

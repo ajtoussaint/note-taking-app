@@ -27,7 +27,7 @@ body
         #createTopicBody
           label(for='topic')
             |New Topic Name:
-            input#topicInput(type="text" name="topic")
+            input#topicInput(type="text" name="topic" minlength="1")
           button(type="submit") Create
     br
     a(href='/editTopics')
