@@ -28,40 +28,58 @@ module.exports = function (app, User){
       //access DB, get list of all topics associated with the user, pass into pug
       TopicList.findOne({username:req.user.username}, function(err, data){
         if(err){
-          // @polish send to error page
-          console.log("ERR 1")
+          errorRedirect(err, res, "Error Finding Topic List","/profile");
+        }else if(!data){
+          //should never happen but create a topic list if there isn't one
+          console.log("Can't find a topic list so I'm making one");
+          let myTopicList = new TopicList({
+            username:req.user.username,
+            topicList:[]
+          });
+
+          myTopicList.save((err,data) => {
+            if(err){
+              errorRedirect(err, res, "Error Creating Topic List in the weird way","/");
+            }else{
+              console.log("CREATED TOPIC LIST: ", data);
+              next();
+            }
+          })
         }else{
-          // @polish create a topic list object if none exist
-          //@12/19 display the number of notes in each topic
+          //display the number of notes in each topic
           res.locals.topicList = data.topicList;
           res.locals.topicData = {};
           data.topicList.forEach((topic) => {
             res.locals.topicData[topic]=null;
           });
-
-          console.log(res.locals.topicData);
-          data.topicList.forEach((topic) => {
-            Note.count({topic:topic},function(err,noteData){
-              if(err){
-                //@polish errmess
-              }else if(!noteData){
-                //@polish errmess
-                console.log("NO DATA FOR:" + topic);
-                res.locals.topicData[topic]=0;
-              }else{
-                console.log("THE COUNT IS " + noteData + " FOR " + topic);
-                res.locals.topicData[topic]=noteData;
-              }
-              console.log("UPDATED: ", res.locals.topicData);
-              if(Object.values(res.locals.topicData).indexOf(null) < 0){
-                console.log("DONE");
-                next();
-              }
+          //need this check in case the user has no topics
+            if(data.topicList.length > 0){
+              data.topicList.forEach((topic) => {
+              console.log("COUNTING NOTES IN: "+ topic);
+              Note.count({topic:topic},function(err,noteData){
+                if(err){
+                  errorRedirect(err, res, "Error getting note count data","/profile");
+                }else if(!noteData){
+                  console.log("NO DATA FOR:" + topic);
+                  res.locals.topicData[topic]=0;
+                }else{
+                  console.log("THE COUNT IS " + noteData + " FOR " + topic);
+                  res.locals.topicData[topic]=noteData;
+                }
+                console.log("UPDATED: ", res.locals.topicData);
+                if(Object.values(res.locals.topicData).indexOf(null) < 0){
+                  console.log("DONE");
+                  next();
+                }
+              });
             });
-          });
+          }else{
+            next();
+          }
         }
       })
     }, (req, res, next) =>{
+          console.log("DONE COUNTING, SEND TO PROFILE");
           res.render("pug/profile", {user:req.user.username,topicList:res.locals.topicList, topicData:res.locals.topicData});
     });
 
@@ -74,12 +92,10 @@ module.exports = function (app, User){
             next(err);
           } else if (user.length > 0){
             console.log("This username is already taken", req.body.username, user);
-            //@polish could redirect to home again with a pug variable to show the message
-            res.redirect('/');
+            res.render("pug/index",{err:"username is already taken"});
           } else if (req.body.password != req.body.confirmPassword){
-            //@polish should add stricter password requirements
             console.log("passwords must match");
-            res.redirect('/');
+            res.render("pug/index",{err:"passwords must match"});
           } else{
             console.log("CREATING NEW USER");
             let myUser = new User({
@@ -88,8 +104,7 @@ module.exports = function (app, User){
             });
             myUser.save((err, data) =>{
               if(err){
-                console.log("error in db transaction");
-                res.redirect('/');
+                errorRedirect(err, res, "Error Saving User","/");
               }else{
                 console.log("NEW USER CREATED ", data);
                 //create a new TopicList object in the database for this user
@@ -100,8 +115,7 @@ module.exports = function (app, User){
 
                 myTopicList.save((err,data) => {
                   if(err){
-                    //@polish send to error page
-                    console.log("TOPIC LIST CREATION ERROR: ",err);
+                    errorRedirect(err, res, "Error Creating Topic List","/");
                   }else{
                     console.log("CREATED TOPIC LIST: ", data);
                   }
@@ -134,10 +148,10 @@ module.exports = function (app, User){
           console.log("FILTERS ACTIVE");
         }
         console.log("GETTING NOTES FOR TOPIC: " + topicName);
-        //@feat filter
+        //filter
         Note.find({ownerName:req.user.username, topic:topicName}, function(err, data){
           if(err){
-            //@polish errmess
+            errorRedirect(err, res, "Error Finding Notes","/topic/"+topicName);
           }else if(data.length < 1){
             console.log("NO NOTES Found");
             res.render('pug/topic',{topic:topicName});
@@ -201,15 +215,17 @@ module.exports = function (app, User){
         //add new topic to the users topic list
         TopicList.findOne({username:req.user.username}, function(err, data){
           if(err){
-            //@polish send to error page
-            console.log("ERROR RETRIEVING TOPIC LIST TO UPDATE");
+            errorRedirect(err, res, "Error Finding Topic List","/profile");
           }else{
-            //@polish prevent the same topic from being made twice
-            data.topicList.push(req.body.topic);
+            //prevent the same topic from being made twice
+            if(data.topicList.indexOf(req.body.topic) < 0){
+              data.topicList.push(req.body.topic);
+            }else{
+              errorRedirect("Error", res, "Topic Already Exists","/profile");
+            }
             data.save( (err,data) => {
               if(err){
-                //@polish send to error page
-                console.log("ERROR SAVING UPDATED TOPIC LIST");
+                errorRedirect(err, res, "Error Saving Topic List on Update","/profile");
               }else{
                 console.log("return to profile")
                 res.redirect("back");
@@ -223,12 +239,12 @@ module.exports = function (app, User){
       app.route('/note')
         .get(ensureAuthenticated, (req, res) =>{
           console.log("ENTERING NOTE TAKING PAGE");
-          //@12/14 get the topics and add them to a dropdown
+          //get the topics and add them to a dropdown
           TopicList.findOne({username:req.user.username}, function(err,data){
             if(err){
-              //@polish errmess
+              errorRedirect(err, res, "Topic Already Exists","/profile");
             }else if(!data){
-              //@polish errmess
+              errorRedirect("Error", res, "No Topic List on File","/profile");
             }else{
               //default will be included in query if applicable
               console.log("PREPARING TO CREATE NOTE:", data.topicList, " FOR TOPIC : ", req.query.topic);
@@ -251,11 +267,9 @@ module.exports = function (app, User){
           //don't create two notes of same title in same topic
           Note.findOne({title:req.body.createNoteTitle, ownerName:req.user.username}, function(err,data){
             if(err){
-              //@polish errmess
+              errorRedirect(err, res, "Error creating note","/topic/"+req.body.createNoteTopic);
             }else if(data){
-              //@polish errmess
-              console.log("CANNOT CREATE TWO NOTES OF SAME TITLE: ", req.body.createNotetitle);
-              res.redirect("/profile");
+              errorRedirect("Error", res, "CANNOT CREATE TWO NOTES OF THE SAME TITLE","/topic/"+req.body.createNoteTopic);
             }else{
               let myNote = new Note({
                 topic: req.body.createNoteTopic,
@@ -267,11 +281,10 @@ module.exports = function (app, User){
               });
               myNote.save((err,data) => {
                 if(err){
-                  //@polish error message
-                  console.log(err);
+                  errorRedirect(err, res, "Error Saving Note","/topic/"+req.body.createNoteTopic);
                 }else{
                   console.log("CREATED NOTE: ", data);
-                  res.redirect('/profile');
+                  res.redirect("/topic/"+req.body.createNoteTopic);
                 }
               });
             }
@@ -283,10 +296,10 @@ module.exports = function (app, User){
           let noteTitle = req.params.noteName
           console.log("DISPLAYING NOTE: " , noteTitle);
           Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err, data){
-            if(err || !data){
-              //@polish errmess
-              console.log(err);
-              res.redirect("/404");
+            if(err){
+              errorRedirect(err, res, "Error finding note","/profile");
+            }else if(!data){
+              errorRedirect("Error", res, "No note on file","/profile");
             }else{
               console.log("FOUND NOTE: ", data);
               let noteContent = markdown.render(data.content)
@@ -303,21 +316,15 @@ module.exports = function (app, User){
           }else{
             Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err,data){
               if(err){
-                //@polish errmess
-                console.log(err);
+                errorRedirect(err, res, "Error finding note","/profile");
               }else if(!data){
-                //@polish errmess
-                console.log("NO NOTE FOUND");
-                res.redirect('back');
+                errorRedirect("Error", res, "No note on file","/profile");
               }else{
                 TopicList.findOne({username:req.user.username}, function(err,topicData){
                   if(err){
-                    //@polish errmess
-                    console.log(err);
+                    errorRedirect(err, res, "Error finding topic list","/profile");
                   }else if(!data){
-                    //@polish errmess
-                    console.log("NO TL FOUND");
-                    res.redirect('back');
+                    errorRedirect("err", res, "No topic list avialable","/profile");
                   }else{
                     console.log("EDITING NOTE");
                     res.render('pug/edit', {data:data, topicList:topicData.topicList});
@@ -342,11 +349,9 @@ module.exports = function (app, User){
             console.log("UPDATING NOTE: " + noteTitle);
             Note.findOne({title:noteTitle, ownerName: req.user.username}, function(err,data){
               if(err){
-                //@polish errmess
+                errorRedirect(err, res, "Error finding note","/profile");
               }else if(!data){
-                //@polish errmess
-                console.log("no data found");
-                res.redirect('/profile');
+                errorRedirect("Error", res, "No note on file","/profile");
               }else{
                 data.topic = req.body.editNoteTopic;
                 data.title = req.body.editNoteTitle;
@@ -354,10 +359,8 @@ module.exports = function (app, User){
                 data.content = req.body.editNoteNote;
                 data.tags = tagArray;
                 data.save((err, updatedData) => {
-                  if(err || !data){
-                    //@polish errmess
-                    console.log("ERROR UPDATING DATA: ", err, data);
-                    res.redirect('/profile');
+                  if(err){
+                    errorRedirect(err, res, "Error saving note","/profile");
                   }else{
                     console.log("UPDATE SUCCESSFUL", updatedData);
                     res.redirect("/notes/" + updatedData.title);
@@ -371,11 +374,9 @@ module.exports = function (app, User){
         .get(ensureAuthenticated, (req,res) => {
           TopicList.findOne({username:req.user.username}, function(err,data){
             if(err){
-              //@polish errmess
+              errorRedirect(err, res, "Error finding Topic List","/profile");
             }else if(!data){
-              //@polish errmess
-              console.log("no data found");
-              res.redirect('/profile');
+              errorRedirect("err", res, "No Topic List found","/profile");
             }else{
               res.render('pug/editTopics', {data:data});
             }
@@ -389,19 +390,15 @@ module.exports = function (app, User){
           }else if(req.params.dataType == "note"){
             Note.findOne({title:req.params.dataTitle, ownerName:req.user.username},function(err,data){
               if(err){
-                //@polish errmess
+                errorRedirect(err, res, "Error finding note","/profile");
               }else if(!data){
-                //@polish errmess
-                console.log("no data found");
-                res.redirect('/profile');
+                errorRedirect("Error", res, "No note on file","/profile");
               }else{
                 res.render('pug/delete',{dataType:req.params.dataType, data:data});
               }
             });
           }else{
-            //@polish errmess
-            console.log("UNKNOWN DATATYPE")
-            res.redirect("/profile");
+            errorRedirect("Error", res, "unknown data type","/profile");
           }
         });
 
@@ -411,29 +408,23 @@ module.exports = function (app, User){
           if(req.params.dataType == "topic"){
             TopicList.findOne({username:req.user.username}, function(err,data){
               if(err){
-                //@polish errmess
+                errorRedirect(err, res, "Error finding Topic List","/profile");
               }else if(!data){
-                //@polish errmess
-                console.log("no topic data found");
-                res.redirect('/profile');
+                errorRedirect("err", res, "No Topic List found","/profile");
               }else{
                 data.topicList = data.topicList.filter(topic => topic !== req.params.dataTitle);
                 data.save((err,updatedData) => {
                   if(err){
-                    //@polish errmess
+                    errorRedirect(err, res, "Error saving Topic List","/profile");
                   }else if(!updatedData){
-                    //@polish errmess
-                    console.log("no updata found");
-                    res.redirect('/profile');
+                    errorRedirect("err", res, "No Topic List found","/profile");
                   }else{
                     console.log("TOPIC WAS DELETED FROM LIST: " + req.params.dataTitle);
                     Note.deleteMany({topic:req.params.dataTitle, ownerName:req.user.username}, function(err,data){
                       if(err){
-                        //@polish errmess
+                        errorRedirect(err, res, "Error finding note","/profile");
                       }else if(!data){
-                        //@polish errmess
-                        console.log("no data found");
-                        res.redirect('/profile');
+                        errorRedirect("Error", res, "No note on file","/profile");
                       }else{
                         console.log("ALL NOTES DELTED UNDER TOPIC: " + req.params.dataTitle);
                         res.redirect("/profile");
@@ -446,22 +437,17 @@ module.exports = function (app, User){
           }else if(req.params.dataType == "note"){
             Note.deleteOne({title:req.params.dataTitle, ownerName:req.user.username},function(err,data){
               if(err){
-                //@polish errmess
+                errorRedirect(err, res, "Error finding note","/profile");
               }else if(!data){
-                //@polish errmess
-                console.log("no data found");
-                res.redirect('/profile');
+                errorRedirect("Error", res, "No note on file","/profile");
               }else{
-                //@polish, this should send you somewhere more useful
                 console.log("DELETED: " + req.params.dataTitle);
                 res.redirect('/profile');
               }
             })
 
           }else{
-            //@polish errmess
-            console.log("UNKNOWN DATATYPE")
-            res.redirect("/profile");
+            errorRedirect("Error", res, "unknown data type","/profile");
           }
         });
 
@@ -480,6 +466,11 @@ module.exports = function (app, User){
       }else{
         return next();
       }
+    }
+
+    //easy way to show an error
+    function errorRedirect(err, res, text, reroute){
+      res.render('pug/errorPage', {err:err, text:text, reroute:reroute})
     }
 
 

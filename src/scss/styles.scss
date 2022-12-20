@@ -29,6 +29,10 @@ a{
   margin-top:10em;
 }
 
+#errorText{
+  color:red;
+}
+
 .indexBox {
     background: $mid_teal;
     border: solid black;
@@ -432,14 +436,32 @@ select{
 }
 
 //used in editTopics
+#editTopicsContent{
+  display: flex;
+  gap:30px;
+  flex-direction: column;
+}
 .deleteLink{
-  background-color: $off_white;
+  @extend .headerButton;
+  height:auto;
+  width: auto;
+  background-color: $danger_color;
+  padding:1em;
+  align-self: center;
   &:hover{
-    color:#7c5050;
+    background-color: $danger_hover;
+    cursor: pointer;
   }
 }
 
 .topicRow{
   display:flex;
   flex-direction: row;
+  justify-content: space-between;
+  width:50vw;
+  background-color: $off_back_gray;
+  padding: 0.5em;
+  h2{
+    max-width:70%;
+  }
 }

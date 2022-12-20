@@ -18,6 +18,10 @@ a:hover {
   margin-top: 10em;
 }
 
+#errorText {
+  color: red;
+}
+
 .indexBox {
   background: rgb(80, 124, 124);
   border: solid black;
@@ -57,7 +61,7 @@ a:hover {
   grid-template-columns: 20% 60% 20%;
 }
 
-.headerButton, #deleteContent #dontDeleteButton, #deleteContent button, #noteContent #noteContentHeader #noteContentHeaderRight a {
+.headerButton, .deleteLink, #deleteContent #dontDeleteButton, #deleteContent button, #noteContent #noteContentHeader #noteContentHeaderRight a {
   color: black;
   background-color: rgb(235, 235, 235);
   border: solid;
@@ -69,7 +73,7 @@ a:hover {
   justify-content: center;
   text-align: center;
 }
-.headerButton:hover, #deleteContent #dontDeleteButton:hover, #deleteContent button:hover, #noteContent #noteContentHeader #noteContentHeaderRight a:hover {
+.headerButton:hover, .deleteLink:hover, #deleteContent #dontDeleteButton:hover, #deleteContent button:hover, #noteContent #noteContentHeader #noteContentHeaderRight a:hover {
   background: gray;
   color: black;
 }
@@ -384,14 +388,32 @@ select {
   cursor: pointer;
 }
 
+#editTopicsContent {
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+}
+
 .deleteLink {
-  background-color: rgb(235, 235, 235);
+  height: auto;
+  width: auto;
+  background-color: #7c5050;
+  padding: 1em;
+  align-self: center;
 }
 .deleteLink:hover {
-  color: #7c5050;
+  background-color: #543636;
+  cursor: pointer;
 }
 
 .topicRow {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 50vw;
+  background-color: rgb(64, 64, 64);
+  padding: 0.5em;
+}
+.topicRow h2 {
+  max-width: 70%;
 }

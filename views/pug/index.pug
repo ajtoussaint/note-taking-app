@@ -31,6 +31,9 @@ head
     h1
       | Register
     form#registerForm(action='/register' method='post')
+      if(err)
+        p#errorText
+          |#{err}
       label(for='username')
         | Username:
         br
