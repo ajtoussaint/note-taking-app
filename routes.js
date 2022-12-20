@@ -155,13 +155,35 @@ module.exports = function (app, User){
                       result = false;
                     }
                   });
-                  //console.log(note.title + " has queried all tags: " + filterTags);
                   return result;
                 });
               }//end tag filter block
+              let dateType = req.query.dateType;
               if(req.query.filterEarlyDate){
-                console.log("date")
-              }
+                let earlyDate = new Date(req.query.filterEarlyDate);
+                console.log("EARLY DATE: " + earlyDate);
+                filteredData = filteredData.filter(note =>{
+                  let noteDate = note[dateType] ?
+                  new Date(note[dateType]):
+                  new Date(note.dateCreated);
+                  console.log("NOTE DATE: " + noteDate);
+                  return noteDate >= earlyDate;
+                });
+              }//end early date filter block
+              if(req.query.filterLateDate){
+                let lateDate = new Date(req.query.filterLateDate + "T00:00:00");
+                console.log("LATE DATE: " + lateDate);
+                filteredData = filteredData.filter(note =>{
+                  let noteDate = note[dateType] ?
+                    new Date(note[dateType]):
+                    new Date(note.dateCreated);
+                  console.log("NOTE DATE: " + noteDate);
+                  return noteDate <= lateDate;
+                });
+              }//end late date filter
+              if(req.query.filterTitle){
+                filteredData = filteredData.filter(note => note.title == req.query.filterTitle);
+              }//end title filter
             }//end filter block
             res.render('pug/topic',{topic:topicName,notes:filteredData});
           }

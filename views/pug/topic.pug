@@ -33,11 +33,11 @@ body
         input#filterTags(type='text' name='filterTags')
       #filterDates
         label(for='created')
+          input#created(type='radio' name='dateType' value='dateCreated' checked)
           |Created
-          input#created(type='radio' name='created-updated' value='created' checked)
         label(for='updated')
+          input#updated(type='radio' name='dateType' value='dateUpdated')
           |Updated
-          input#updated(type='radio' name='created-updated' value='updated')
         label(for='filterEarlyDate')
           |Earliest Date:
           input#filterEarlyDate(type='date' name='filterEarlyDate')
