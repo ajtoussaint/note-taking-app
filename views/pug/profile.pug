@@ -6,6 +6,8 @@ head
 body
   +universalHeader
   #profileContent.content
+    h2
+      |Welcome #{user}
     #topicContainer
       if !topicList
         h1#noTopicsFound
@@ -17,7 +19,7 @@ body
           each topic in topicList
             li(class="topic")
               a(href='/topic/'+ topic class="topicLink")
-                |#{topic}
+                |#{topic} (#{topicData[topic]})
     #createTopic
       form#newTopicForm(action='/topic' method="post")
         label(for='topic')

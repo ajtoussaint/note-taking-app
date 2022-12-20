@@ -26,17 +26,43 @@ module.exports = function (app, User){
     .get(ensureAuthenticated, function (req, res, next) {
       console.log("IN PROFILE OF: ", req.user.username);
       //access DB, get list of all topics associated with the user, pass into pug
-      TopicList.findOne({username:req.user.username}, function(err, topicList){
+      TopicList.findOne({username:req.user.username}, function(err, data){
         if(err){
           // @polish send to error page
           console.log("ERR 1")
         }else{
           // @polish create a topic list object if none exist
           //@12/19 display the number of notes in each topic
-          console.log(topicList);
-            res.render("pug/profile", {user:req.user.username,topicList:topicList.topicList});
+          res.locals.topicList = data.topicList;
+          res.locals.topicData = {};
+          data.topicList.forEach((topic) => {
+            res.locals.topicData[topic]=null;
+          });
+
+          console.log(res.locals.topicData);
+          data.topicList.forEach((topic) => {
+            Note.count({topic:topic},function(err,noteData){
+              if(err){
+                //@polish errmess
+              }else if(!noteData){
+                //@polish errmess
+                console.log("NO DATA FOR:" + topic);
+                res.locals.topicData[topic]=0;
+              }else{
+                console.log("THE COUNT IS " + noteData + " FOR " + topic);
+                res.locals.topicData[topic]=noteData;
+              }
+              console.log("UPDATED: ", res.locals.topicData);
+              if(Object.values(res.locals.topicData).indexOf(null) < 0){
+                console.log("DONE");
+                next();
+              }
+            });
+          });
         }
       })
+    }, (req, res, next) =>{
+          res.render("pug/profile", {user:req.user.username,topicList:res.locals.topicList, topicData:res.locals.topicData});
     });
 
     app.route("/register")
