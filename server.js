@@ -19,6 +19,9 @@ const User = require('./models/User');
 const auth = require('./auth.js');
 //import routing code
 const route = require('./routes.js');
+//used for serving the icon
+const favicon = require('serve-favicon');
+
 
 //before anything esle connect mongoose to the db
 mongoose
@@ -37,6 +40,9 @@ app.use('/public', express.static(process.cwd() + '/public'));
 //bodyparser middleware setup
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//used to set favicon
+app.use(favicon('./public/images/icon.ico'));
 
 //pug view engine setup
 app.set('view engine', 'pug');
