@@ -25,7 +25,6 @@ module.exports = function (app, User){
 
   app.route("/profile")
     .get(ensureAuthenticated, function (req, res, next) {
-      console.log("IN PROFILE OF: ", req.user.username);
       //access DB, get list of all topics associated with the user, pass into pug
       TopicList.findOne({username:req.user.username}, function(err, data){
         if(err){
@@ -56,20 +55,16 @@ module.exports = function (app, User){
           //need this check in case the user has no topics
             if(data.topicList.length > 0){
               data.topicList.forEach((topic) => {
-              console.log("COUNTING NOTES IN: "+ topic);
+                //count the notes in each topic
               Note.count({topic:topic},function(err,noteData){
                 if(err){
                   errorRedirect(err, res, "Error getting note count data","/profile");
                 }else if(!noteData){
-                  console.log("NO DATA FOR:" + topic);
                   res.locals.topicData[topic]=0;
                 }else{
-                  console.log("THE COUNT IS " + noteData + " FOR " + topic);
                   res.locals.topicData[topic]=noteData;
                 }
-                console.log("UPDATED: ", res.locals.topicData);
                 if(Object.values(res.locals.topicData).indexOf(null) < 0){
-                  console.log("DONE");
                   next();
                 }
               });
@@ -80,25 +75,20 @@ module.exports = function (app, User){
         }
       })
     }, (req, res, next) =>{
-          console.log("DONE COUNTING, SEND TO PROFILE");
           res.render("pug/profile", {user:req.user.username,topicList:res.locals.topicList, topicData:res.locals.topicData});
     });
 
     app.route("/register")
       .post(function (req, res, next) {
-        console.log("ATTEMPTING TO REGISTER USER ", req.body.username, " WITH PASSWORD ", req.body.password);
         const hash = bcrypt.hashSync(req.body.password, 9);
         User.find({username:req.body.username}, function(err, user) {
           if(err){
             next(err);
           } else if (user.length > 0){
-            console.log("This username is already taken", req.body.username, user);
             res.render("pug/index",{err:"username is already taken"});
           } else if (req.body.password != req.body.confirmPassword){
-            console.log("passwords must match");
             res.render("pug/index",{err:"passwords must match"});
           } else{
-            console.log("CREATING NEW USER");
             let myUser = new User({
               username:req.body.username,
               password:hash
@@ -129,7 +119,6 @@ module.exports = function (app, User){
       },
         passport.authenticate('local',{failureRedirect: '/'}),
         (req, res, next) => {
-          console.log("sending to new user profile");
           res.redirect('/profile');
         }
     );
@@ -145,21 +134,15 @@ module.exports = function (app, User){
     app.route('/topic/:topicName')
       .get(ensureAuthenticated, (req, res, next) => {
         let topicName = req.params.topicName
-        if(req.query.filters){
-          console.log("FILTERS ACTIVE");
-        }
-        console.log("GETTING NOTES FOR TOPIC: " + topicName);
         //filter
         Note.find({ownerName:req.user.username, topic:topicName}, function(err, data){
           if(err){
             errorRedirect(err, res, "Error Finding Notes","/topic/"+topicName);
           }else if(data.length < 1){
-            console.log("NO NOTES Found");
             res.render('pug/topic',{topic:topicName});
           }else{
             let filteredData = [...data];
             if(req.query.filters){
-              console.log("FILTERS ACTIVE");
               if(req.query.filterTags){
                 filterTags = req.query.filterTags.split(",");
                 //trim whitespace from tags
@@ -170,7 +153,6 @@ module.exports = function (app, User){
                   let result = true;
                   filterTags.forEach(tag => {
                     if(note.tags.indexOf(tag) < 0){
-                      console.log(note.title + " is missing tag " + tag);
                       result = false;
                     }
                   });
@@ -180,23 +162,19 @@ module.exports = function (app, User){
               let dateType = req.query.dateType;
               if(req.query.filterEarlyDate){
                 let earlyDate = new Date(req.query.filterEarlyDate);
-                console.log("EARLY DATE: " + earlyDate);
                 filteredData = filteredData.filter(note =>{
                   let noteDate = note[dateType] ?
                   new Date(note[dateType]):
                   new Date(note.dateCreated);
-                  console.log("NOTE DATE: " + noteDate);
                   return noteDate >= earlyDate;
                 });
               }//end early date filter block
               if(req.query.filterLateDate){
                 let lateDate = new Date(req.query.filterLateDate + "T00:00:00");
-                console.log("LATE DATE: " + lateDate);
                 filteredData = filteredData.filter(note =>{
                   let noteDate = note[dateType] ?
                     new Date(note[dateType]):
                     new Date(note.dateCreated);
-                  console.log("NOTE DATE: " + noteDate);
                   return noteDate <= lateDate;
                 });
               }//end late date filter
@@ -216,7 +194,6 @@ module.exports = function (app, User){
         if(req.body.topic.length < 1){
           errorRedirect("Error", res, "Topic name must include text","/profile");
         }else{
-          console.log("CREATING NEW TOPIC " + req.body.topic + " FOR " + req.user.username);
           //add new topic to the users topic list
           TopicList.findOne({username:req.user.username}, function(err, data){
             if(err){
@@ -232,7 +209,6 @@ module.exports = function (app, User){
                 if(err){
                   errorRedirect(err, res, "Error Saving Topic List on Update","/profile");
                 }else{
-                  console.log("return to profile")
                   res.redirect("back");
                 }
               })
@@ -244,7 +220,6 @@ module.exports = function (app, User){
       //route to create a brand new note
       app.route('/note')
         .get(ensureAuthenticated, (req, res) =>{
-          console.log("ENTERING NOTE TAKING PAGE");
           //get the topics and add them to a dropdown
           TopicList.findOne({username:req.user.username}, function(err,data){
             if(err){
@@ -253,7 +228,6 @@ module.exports = function (app, User){
               errorRedirect("Error", res, "No Topic List on File","/profile");
             }else{
               //default will be included in query if applicable
-              console.log("PREPARING TO CREATE NOTE:", data.topicList, " FOR TOPIC : ", req.query.topic);
               res.render('pug/createNote', {defaultTopic: req.query.topic, topicList:data.topicList});
             }
           });
@@ -262,7 +236,6 @@ module.exports = function (app, User){
 
       app.route('/note')
         .post(ensureAuthenticated, (req,res) => {
-          console.log("CREATING A NEW NOTE: " + req.body.createNoteTopic);
           let tagArray = req.body.createNoteTags ?
            req.body.createNoteTags.split(","):
            [];
@@ -289,7 +262,6 @@ module.exports = function (app, User){
                 if(err){
                   errorRedirect(err, res, "Error Saving Note","/topic/"+req.body.createNoteTopic);
                 }else{
-                  console.log("CREATED NOTE: ", data);
                   res.redirect("/topic/"+req.body.createNoteTopic);
                 }
               });
@@ -300,14 +272,12 @@ module.exports = function (app, User){
       app.route('/notes/:noteName')
         .get(ensureAuthenticated, (req,res) => {
           let noteTitle = req.params.noteName
-          console.log("DISPLAYING NOTE: " , noteTitle);
           Note.findOne({title:noteTitle, ownerName:req.user.username}, function(err, data){
             if(err){
               errorRedirect(err, res, "Error finding note","/profile");
             }else if(!data){
               errorRedirect("Error", res, "No note on file","/profile");
             }else{
-              console.log("FOUND NOTE: ", data);
               let noteContent = markdown.render(data.content)
               res.render('pug/note',{data:data, content:noteContent})
             }
@@ -332,7 +302,6 @@ module.exports = function (app, User){
                   }else if(!data){
                     errorRedirect("err", res, "No topic list avialable","/profile");
                   }else{
-                    console.log("EDITING NOTE");
                     res.render('pug/edit', {data:data, topicList:topicData.topicList});
                   }
                 })
@@ -352,7 +321,6 @@ module.exports = function (app, User){
             tagArray.forEach((tag, i) =>{
               tagArray[i]=tag.trim();
             });
-            console.log("UPDATING NOTE: " + noteTitle);
             Note.findOne({title:noteTitle, ownerName: req.user.username}, function(err,data){
               if(err){
                 errorRedirect(err, res, "Error finding note","/profile");
@@ -368,7 +336,6 @@ module.exports = function (app, User){
                   if(err){
                     errorRedirect(err, res, "Error saving note","/profile");
                   }else{
-                    console.log("UPDATE SUCCESSFUL", updatedData);
                     res.redirect("/notes/" + updatedData.title);
                   }
                 })
@@ -410,7 +377,6 @@ module.exports = function (app, User){
 
       app.route('/delete/:dataType/:dataTitle')
         .post(ensureAuthenticated, (req,res) => {
-          console.log("DELETING..." + req.params.dataType + req.params.dataTitle);
           if(req.params.dataType == "topic"){
             TopicList.findOne({username:req.user.username}, function(err,data){
               if(err){
@@ -425,14 +391,12 @@ module.exports = function (app, User){
                   }else if(!updatedData){
                     errorRedirect("err", res, "No Topic List found","/profile");
                   }else{
-                    console.log("TOPIC WAS DELETED FROM LIST: " + req.params.dataTitle);
                     Note.deleteMany({topic:req.params.dataTitle, ownerName:req.user.username}, function(err,data){
                       if(err){
                         errorRedirect(err, res, "Error finding note","/profile");
                       }else if(!data){
                         errorRedirect("Error", res, "No note on file","/profile");
                       }else{
-                        console.log("ALL NOTES DELTED UNDER TOPIC: " + req.params.dataTitle);
                         res.redirect("/profile");
                       }
                     })
@@ -468,7 +432,6 @@ module.exports = function (app, User){
       if(req.isAuthenticated()){
         return next();
       }
-      console.log('Authentication invalid, go home');
       res.redirect('/');
     };
 
