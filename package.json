@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "npm-run-all --parallel nodemon-watch scss",
     "nodemon-watch": "nodemon server.js",
-    "scss": "sass --watch --no-source-map src/scss/styles.scss public/styles.css"
+    "scss": "sass --watch --no-source-map src/scss/styles.scss public/styles.css",
+    "build": "sass --no-source-map src/scss/styles.scss public/styles.css"
   },
   "author": "Andrew Toussaint",
   "license": "MIT",
