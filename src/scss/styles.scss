@@ -476,14 +476,14 @@ select{
   margin:0 2.5vw;
   align-items: center;
   img{
-    width:100%;
+    width:70%;
     height:auto;
   }
 
   #plainText{
     background-color: $off_back_gray;
     width:40vw;
-    height:70vh;
+    height:100%;
     border: solid black;
     padding:1em;
     word-wrap: break-word;
@@ -491,6 +491,7 @@ select{
 
   #renderedText{
     @extend #plainText;
+    height:auto;
   }
 }
 
