@@ -8,34 +8,13 @@ body
   #markdownContent.content
     h1
       |Notes you take will be rendered via markdown for added styling:
-    a(href=referrer)
+    a(href=(referrer ? referrer : '/'))
       |Cool, take me back
     br
     #markdownExample
       #plainText
-        .
-          # Markdown Previewer
-          ## by Andrew Toussaint
-          Example of a [link](https://www.freecodecamp.org) to a cool website.
-          Example of inlide code: `<div></div>`
-          The test suite demands multiline code:
-          ```
-          //and it shall be appeased
-          function myFunc() {
-          alert("tests pass");
-          }
-          ```
-          - Example of a list:
-          - indentation 1
-            - indentation 2
-
-          > "Example of a block quote".
-
-          Example of **bolded** text.
-          Example of embedded image:
-          ![freeCodeCamp Logo](https://cdn.freecodecamp.org/testable-projects-fcc/images/fcc_secondary.svg)
-          FYI: Images will be made to fit in the box
+        each line in text.split('\n')
+          p #{line}
 
       #renderedText
-        !=
-  script(src='./public/markdownRender.js' type="text/javascript")
+        !=content

@@ -469,6 +469,32 @@ select{
     max-width:70%;
   }
 }
+//used in the markdown example
+#markdownExample{
+  display: flex;
+  gap:5vw;
+  margin:0 2.5vw;
+  align-items: center;
+  img{
+    width:100%;
+    height:auto;
+  }
+
+  #plainText{
+    background-color: $off_back_gray;
+    width:40vw;
+    height:70vh;
+    border: solid black;
+    padding:1em;
+    word-wrap: break-word;
+  }
+
+  #renderedText{
+    @extend #plainText;
+  }
+}
+
+
 //everything but for mobile
 @media only screen and (max-device-width: 480px){
   .content{
@@ -630,6 +656,16 @@ select{
 
   #page404{
     font-size: 100px;
+  }
+
+  #markdownExample{
+    flex-direction: column;
+    #plainText{
+      width:90vw;
+      height:auto;
+      font-size:30px;
+
+    }
   }
 
 }

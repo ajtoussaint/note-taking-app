@@ -9,6 +9,7 @@ const Note = require('./models/Note');
 const pug = require('pug');
 //markdown parses the body of the notes
 const markdown = require('markdown-it')();
+const MarkdownExampleText=require('./models/markdownText');
 
 module.exports = function (app, User){
   app.route('/')
@@ -458,7 +459,13 @@ module.exports = function (app, User){
 
     app.route('/markdown')
       .get((req, res) => {
-        res.render('pug/markdown',{referrer:req.get("Referrer")});
+
+        let markdownText = MarkdownExampleText;
+        let markdownHTML = markdown.render(markdownText);
+
+        console.log(req.get("Referrer"))
+
+        res.render('pug/markdown',{referrer:req.get("Referrer"),text:markdownText,content:markdownHTML});
       });
 
     function ensureAuthenticated(req,res,next) {

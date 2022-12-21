@@ -422,6 +422,24 @@ select {
   max-width: 70%;
 }
 
+#markdownExample {
+  display: flex;
+  gap: 5vw;
+  margin: 0 2.5vw;
+  align-items: center;
+}
+#markdownExample img {
+  width: 100%;
+  height: auto;
+}
+#markdownExample #plainText, #markdownExample #renderedText {
+  background-color: rgb(64, 64, 64);
+  width: 40vw;
+  height: 70vh;
+  border: solid black;
+  padding: 1em;
+  word-wrap: break-word;
+}
 @media only screen and (max-device-width: 480px) {
   .content {
     margin-top: 20vh;
@@ -554,5 +572,13 @@ select {
   }
   #page404 {
     font-size: 100px;
+  }
+  #markdownExample {
+    flex-direction: column;
+  }
+  #markdownExample #plainText, #markdownExample #renderedText {
+    width: 90vw;
+    height: auto;
+    font-size: 30px;
   }
 }
