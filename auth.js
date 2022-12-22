@@ -24,20 +24,20 @@ module.exports = function(app, User){
   passport.use(new LocalStrategy(
     function(username, password, done){
       User.find({username:username}, function(err, data){
-        console.log('User ' +username+' attempted to log in.');
+        //console.log('User ' +username+' attempted to log in.');
         if(err){
           console.log(err);
           return done(err);
         }
         if (!data) {
-          console.log("Found no such user");
+        //  console.log("Found no such user");
           return done(null,false);
         }
         if (!bcrypt.compareSync(password, data[0].password)){
-          console.log('wrong password');
+          //console.log('wrong password');
           return done(null,false);
         }
-        console.log("I'm in B)");
+        //console.log("I'm in B)");
         return done(null,data[0]);
       });
     }

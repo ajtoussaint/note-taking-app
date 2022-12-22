@@ -19,7 +19,7 @@ module.exports = function (app, User){
 
   app.route("/login")
     .post(passport.authenticate('local', {failureRedirect:'/'}), function (req,res) {
-      console.log("LOGIN ATTEMPT BY: ", req.body);
+      //console.log("LOGIN ATTEMPT BY: ", req.body);
       res.redirect("/profile");
     });
 
