@@ -15,7 +15,7 @@ body
         |Topic:
         select#editNoteTopic(name='editNoteTopic')
           for topic in topicList
-            if (topic === defaultTopic)
+            if (topic === data.topic)
               option(value=topic selected)
                 |#{topic}
             else
