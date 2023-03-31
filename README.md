@@ -18,23 +18,21 @@
    <a href="https://pugjs.org" target="_blank" rel="noreferrer"> <img src="https://cdn.worldvectorlogo.com/logos/pug.svg" alt="pug" width="40" height="40"/> </a>
  </p>
  <p>
-  Description
+  This app uses a node.js/express backend to serve pug template files and fills in information based on variables included in the response. For the database I used mongoDB Atlas and for hosting I used <a href="https://render.com/">render.com</a> since it was free and easy. This app was originally titled "note-taking-app" as a prototype name. The much <i>cooler</i> name is a reference to Jacob Bekenstein's theoretical limit on the maximum amount of information able to be contained in a physical space, which is fitting for an app used to store all of your important notes. (Extra credit if you know where I first learned about Mr.Bekenstein :new_moon: )
  </p>
  
 </p>
 
 <h2>Future Optimizations and Fixes:</h2>
 <p>
-  I could probably whittle away at this app forever. There are a lot of things that can be done better and some are baked in from the beginning so I think it will be more productive to keep moving and focus on new projects. A short list of some things I would change/fix:
-  <ul>
-    <li></li>
-  </ul>
-  
-
+  A good improvement to this app would be the ability to make sub folders, although this is somewhat covered by tags/filtering for multiple tags at a time. I also wanted the ability to link between sections of a page or to link a section of one note to a specific section of another. This is something I really enjoy about using physical notes that I wasn't able to translate into the digital version. I know it is possible though as github has <a href="https://github.com/ajtoussaint/note-taking-app/edit/main/README.md#bekenstein-limit">this functionality</a>.
+</p>
+<p>
+  Overall I'm very happy with the way the app turned out and I use it myself as you can see from the screenshot. I genuinely prefer it to something like google keep or google drive which I find to be to bulky. I just want to save some .txt files and access them from any device!
 </p>
 
 <h2>Lessons Learned:</h2>
-<p>Lessons
+<p>When I first learned about the Pug/node.js stack I thought "Wouldn't it be easier to just use React?" While setting out to make this app independent of any prompt or tutorial I was still learning how full stack applications communicate between fontend and backend. It turned out to be easier to figure out how to provide the functionality I was looking for with pug. Knowing what I know now though I definitely would have used React instead and will do so for my future projects. The extra legwork to set up a react app is worth while as you get much functionality readily available once it is set up. I'm sure that each system can shine in cerain scenarios though.
 </p>
 
 <h2>Other Projects:</h2>
